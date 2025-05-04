@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -35,5 +37,17 @@ class UserController extends Controller
             'user' => $user
         ]);
 
+    }
+
+    public function deauthentication() {
+        // Skip for now
+    }
+
+    public function getProfile() {
+        $profile = User::with('office')->findOrFail(Auth::user()->id);
+        return response()->json([
+            'message' => 'Information Personal',
+            'data' => new UserResource($profile)
+        ]);
     }
 }

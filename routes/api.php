@@ -17,6 +17,8 @@ Route::get('/helloworld', function() {
 
 Route::post('/auth', [UserController::class, "authentication"]);
 Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/profile', [UserController::class, 'getProfile']);
+    
     Route::post('/checkin', [AttendanceController::class, 'checkIn']);
     Route::post('/checkout', [AttendanceController::class, 'checkOut']);
 });
