@@ -42,7 +42,8 @@ class AttendanceService
             'extra_minutes' => $extraMinutes,
             'checkin_photo' => $photoPath,
             'checkin_lat' => $data['checkin_lat'],
-            'checkin_long' => $data['checkin_long']
+            'checkin_long' => $data['checkin_long'],
+            'status' => 'present'
         ]);
 
         $balance = WorkBalance::firstOrCreate(['user_id' => $user->id], ['total_minutes' => 0]);
