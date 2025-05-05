@@ -177,20 +177,10 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
                                     <!-- item-->
-                                    <h6 class="dropdown-header">Welcome Gaston!</h6>
+                                    <h6 class="dropdown-header">Welcome Admin!</h6>
 
-                                    <a class="dropdown-item" href="pages-calendar.html">
-                                        <iconify-icon icon="solar:calendar-broken" class="align-middle me-2 fs-18"></iconify-icon><span class="align-middle">My Schedules</span>
-                                    </a>
-
-                                    <a class="dropdown-item" href="pages-pricing.html">
-                                        <iconify-icon icon="solar:wallet-broken" class="align-middle me-2 fs-18"></iconify-icon><span class="align-middle">Pricing</span>
-                                    </a>
-                                    <a class="dropdown-item" href="pages-faqs.html">
-                                        <iconify-icon icon="solar:help-broken" class="align-middle me-2 fs-18"></iconify-icon><span class="align-middle">Help</span>
-                                    </a>
-                                    <a class="dropdown-item" href="auth-lock-screen.html">
-                                        <iconify-icon icon="solar:lock-keyhole-broken" class="align-middle me-2 fs-18"></iconify-icon><span class="align-middle">Lock screen</span>
+                                    <a class="dropdown-item" href="/editpassword">
+                                       <iconify-icon icon="solar:lock-keyhole-broken" class="align-middle me-2 fs-18"></iconify-icon><span class="align-middle">Change Password</span>
                                     </a>
 
                                     <div class="dropdown-divider my-1"></div>

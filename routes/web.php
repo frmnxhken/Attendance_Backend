@@ -17,4 +17,6 @@ Route::middleware(['auth:admin'])->group(function() {
     Route::resource('/employee', UserController::class);
     Route::resource('/office', OfficeController::class);
     Route::get('/attendance', [AttendanceController::class, 'index']);
+    Route::get('/editpassword', [AdminController::class, 'editPassword']);
+    Route::put('/editpassword', [AdminController::class, 'updatePassword']);
 });
