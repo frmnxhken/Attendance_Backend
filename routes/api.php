@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\AttendanceController;
+use App\Http\Controllers\API\HistoryController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +19,9 @@ Route::get('/helloworld', function() {
 Route::post('/auth', [UserController::class, "authentication"]);
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/profile', [UserController::class, 'getProfile']);
+    
+    Route::get('/history/recent', [HistoryController::class, 'recent']);
+    Route::get('/history', [HistoryController::class, 'histories']);
     
     Route::post('/checkin', [AttendanceController::class, 'checkIn']);
     Route::post('/checkout', [AttendanceController::class, 'checkOut']);
