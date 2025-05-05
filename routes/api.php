@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\AttendanceController;
+use App\Http\Controllers\API\ExcuseController;
 use App\Http\Controllers\API\HistoryController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
@@ -26,4 +27,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/status', [AttendanceController::class, 'checkStatus']);
     Route::post('/checkin', [AttendanceController::class, 'checkIn']);
     Route::post('/checkout', [AttendanceController::class, 'checkOut']);
+    
+    Route::post('/excuse/request', [ExcuseController::class, 'requestExcuse']);
 });
