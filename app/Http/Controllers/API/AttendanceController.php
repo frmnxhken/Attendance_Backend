@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Attendance;
 use App\Services\AttendanceService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -71,6 +73,16 @@ class AttendanceController extends Controller
             'message' => 'Check-out recorded',
             'data' => $result['attendance'],
             'total_minutes' => $result['balance']->total_minutes
+        ]);
+    }
+
+    public function checkStatus() {
+        $today = Carbon::today();
+
+        $status = $this->service->attendanceStatus($today);
+        return response()->json([
+            'message' => 'Status attendance today',
+            'status' => $status
         ]);
     }
 }

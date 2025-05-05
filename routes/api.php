@@ -23,6 +23,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/history/recent', [HistoryController::class, 'recent']);
     Route::get('/history', [HistoryController::class, 'histories']);
     
+    Route::get('/status', [AttendanceController::class, 'checkStatus']);
     Route::post('/checkin', [AttendanceController::class, 'checkIn']);
     Route::post('/checkout', [AttendanceController::class, 'checkOut']);
 });

@@ -102,6 +102,23 @@ class AttendanceService
         return ['attendance' => $attendance, 'balance' => $balance];
     }
 
+    public function attendanceStatus($date) {
+        $user = Auth::user();
+        $attendance = Attendance::where('user_id', $user->id)->where('date', $date)->first();
+        $status = '';
+
+        if(!$attendance) {
+            $status = 'checkin';
+        } elseif ($attendance->checkin && !$attendance->checkout) {
+            $status = 'checkout';
+        } else {
+            $status = 'disable';
+        }
+
+        return $status;
+
+    }
+
     protected function saveAttendancePhoto($file, $type = 'checkin')
     {
         if (!in_array($type, ['checkin', 'checkout'])) {
