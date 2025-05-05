@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\ExcuseController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +19,8 @@ Route::middleware(['auth:admin'])->group(function() {
     Route::resource('/employee', UserController::class);
     Route::resource('/office', OfficeController::class);
     Route::get('/attendance', [AttendanceController::class, 'index']);
+    Route::get('/excuse', [ExcuseController::class, 'index']);
+    Route::get('/excuse/detail', [ExcuseController::class, 'show']);
     Route::get('/editpassword', [AdminController::class, 'editPassword']);
     Route::put('/editpassword', [AdminController::class, 'updatePassword']);
 });
