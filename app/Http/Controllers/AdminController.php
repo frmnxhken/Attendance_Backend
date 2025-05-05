@@ -29,6 +29,13 @@ class AdminController extends Controller
         ])->onlyInput('email');
     }
 
+    public function deauthentication(Request $request) {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/login');
+    }
+
     public function editPassword() {
         return view('profile.edit_password');
     }
