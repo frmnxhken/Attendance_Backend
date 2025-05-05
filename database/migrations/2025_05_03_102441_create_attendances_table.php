@@ -26,7 +26,7 @@ return new class extends Migration
             $table->integer('late_minutes')->nullable();
             $table->integer('early_leave')->nullable();
             $table->integer('extra_minutes')->nullable();
-            $table->enum('status', ['present', 'absent'])->nullable();
+            $table->enum('status', ['present', 'absent', 'excuse'])->nullable();
             $table->timestamps();
         });
     }

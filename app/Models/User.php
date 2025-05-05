@@ -22,7 +22,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'office_id'
+        'nip',
+        'gender',
+        'address',
+        'photo',
+        'office_id' 
     ];
 
     /**
@@ -51,4 +55,5 @@ class User extends Authenticatable
     public function office() {
         return $this->belongsTo(Office::class);
     }
+
 }

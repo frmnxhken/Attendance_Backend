@@ -341,7 +341,7 @@
                 <ul class="navbar-nav" id="navbar-nav">
 
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link" href="/">
                             <span class="nav-icon">
                                 <i class="ri-dashboard-line"></i>
                             </span>
@@ -350,7 +350,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#sidebarAuthentication" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarAuthentication">
+                        <a class="nav-link" href="/attendance">
                             <span class="nav-icon">
                                 <i class="ri-survey-line"></i>
                             </span>
@@ -359,7 +359,7 @@
                     </li>
                     
                     <li class="nav-item">
-                        <a class="nav-link" href="#sidebarAuthentication" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarAuthentication">
+                        <a class="nav-link" href="/excuse">
                             <span class="nav-icon">
                                 <i class="ri-mail-line"></i>
                             </span>
@@ -368,7 +368,7 @@
                     </li>
                     
                     <li class="nav-item">
-                        <a class="nav-link" href="#sidebarAuthentication" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarAuthentication">
+                        <a class="nav-link" href="/employee">
                             <span class="nav-icon">
                                 <i class="ri-file-user-line"></i>
                             </span>
@@ -377,7 +377,7 @@
                     </li>
                     
                     <li class="nav-item">
-                        <a class="nav-link" href="#sidebarAuthentication" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarAuthentication">
+                        <a class="nav-link" href="/office">
                             <span class="nav-icon">
                                 <i class="ri-building-2-line"></i>
                             </span>

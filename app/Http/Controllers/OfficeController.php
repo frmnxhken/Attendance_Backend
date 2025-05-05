@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Office;
 use Illuminate\Http\Request;
 
 class OfficeController extends Controller
@@ -11,7 +12,8 @@ class OfficeController extends Controller
      */
     public function index()
     {
-        return view('office.app');
+        $offices = Office::all();
+        return view('office.app', compact('offices'));
     }
     
     /**
@@ -27,7 +29,19 @@ class OfficeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validation = $request->validate([
+            'name' => 'required|unique:offices,name',
+            'long' => 'required',
+            'lat' => 'required',
+            'address' => 'required'
+        ]);
+
+        try {
+            Office::create($validation);
+            return redirect('/office')->with('success', 'Success addedly office');
+        } catch (\Throwable $th) {
+            return redirect('/office')->with('fail', 'Fail addedly office');
+        }
     }
 
     /**
@@ -43,7 +57,8 @@ class OfficeController extends Controller
      */
     public function edit(string $id)
     {
-        return view('office.edit');
+        $office = Office::findOrFail($id);
+        return view('office.edit', compact('office'));
     }
     
     /**
@@ -51,7 +66,19 @@ class OfficeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validation = $request->validate([
+            'name' => 'required|unique:offices,name,'.$id,
+            'long' => 'required',
+            'lat' => 'required',
+            'address' => 'required'
+        ]);
+
+        try {
+            Office::findOrFail($id)->update($validation);
+            return redirect('/office')->with('success', 'Success updated office');
+        } catch (\Throwable $th) {
+            return redirect('/office')->with('fail', 'Fail updated office');
+        }
     }
 
     /**
@@ -59,6 +86,11 @@ class OfficeController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            Office::findOrFail($id)->delete();
+            return redirect('/office')->with('success', 'Success deleted office');
+        } catch (\Throwable $th) {
+            return redirect('/office')->with('fail', 'Fail deleted office');
+        }
     }
 }
