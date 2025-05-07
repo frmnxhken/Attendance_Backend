@@ -38,6 +38,7 @@
                             <td>
                                 <div class="d-flex gap-2">
                                     <a href="{{ route('employee.edit', $employee->id) }}" class="text-white text-sm bg-success border-0 px-2 rounded" href="/">Edit</a>
+                                    <a href="{{ route('employee.show', $employee->id) }}" class="text-white text-sm bg-warning border-0 px-2 rounded" href="/">Detail</a>
                                     <form method="post" action="{{ route('employee.destroy', $employee->id) }}">
                                         @csrf
                                         @method('DELETE')

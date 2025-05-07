@@ -28,6 +28,7 @@ class AttendanceController extends Controller
             'checkin_photo' => 'required'
         ]);
 
+
         if ($validation->fails()) {
             return response()->json(['message' => $validation->errors()], 422);
         }

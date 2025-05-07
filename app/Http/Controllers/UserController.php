@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attendance;
 use App\Models\Office;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -54,7 +55,17 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $attendance = Attendance::where('user_id', $id)->get();
+        $user = User::findOrFail($id)->first();
+        $statistic = [
+            'present' => $attendance->where('status', 'present')->count(),
+            'late' => $attendance->where('status', 'present')->where('late_minutes', '>', 0)->count(),
+            'excused' => $attendance->where('status', 'excuse')->count(),
+            'absent' => $attendance->where('status', 'absent')->count()
+        ];
+
+
+        return view('employee.detail', compact('statistic', 'user'));
     }
 
     /**

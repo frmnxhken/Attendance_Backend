@@ -21,8 +21,8 @@ class HistoryController extends Controller
         $balance = WorkBalance::where('user_id', $user->id)->first();
 
         $todayStatistic = [
-            'checkin' => $attendance->checkin,
-            'checkout' => $attendance->checkout,
+            'checkin' => $attendance?->checkin,
+            'checkout' => $attendance?->checkout,
             'balance' => $balance->total_minutes,
             'attended' => $attendances->count(),
         ];
