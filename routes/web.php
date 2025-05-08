@@ -18,7 +18,9 @@ Route::middleware(['auth:admin'])->group(function() {
     Route::resource('/office', OfficeController::class);
     Route::get('/attendance', [AttendanceController::class, 'index']);
     Route::get('/excuse', [ExcuseController::class, 'index']);
-    Route::get('/excuse/detail', [ExcuseController::class, 'show']);
+    Route::get('/excuse/detail/{id}', [ExcuseController::class, 'show']);
+    Route::post('/excuse/detail/{id}/approve', [ExcuseController::class, 'approve'])->name('approve');
+    Route::post('/excuse/detail/{id}/cancel', [ExcuseController::class, 'cancel'])->name('cancel');
     Route::get('/editpassword', [AdminController::class, 'editPassword']);
     Route::put('/editpassword', [AdminController::class, 'updatePassword']);
 });

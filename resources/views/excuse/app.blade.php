@@ -6,24 +6,28 @@
                     <h4 class="text-dark">Excuse</h4>
                 </div>
                 <ul class="list-group">
-                    <li class="list-group-item list-group-item-action">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <p><a href="/excuse/detail">Wahyudi Firmansyah</a></p>
-                                <span class="badge bg-warning">Pending</span>
-                            </div>    
-                            <p>05 May 2025</p>
-                        </div>
-                    </li>
-                    <li class="list-group-item list-group-item-action">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <p>Karina Aespa</p>
-                                <span class="badge bg-success">Approve</span>
-                            </div>    
-                            <p>03 May 2025</p>
-                        </div>
-                    </li>
+                    @forelse ($excuses as $excuse)
+                        <li class="list-group-item list-group-item-action">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <p><a href="/excuse/detail/{{ $excuse->id }}">{{ $excuse->user->name }}</a></p>
+                                    @php
+                                        $badgeClass = match ($excuse->status) {
+                                            'approve' => 'bg-success',
+                                            'pending' => 'bg-warning',
+                                            'cancel' => 'bg-danger',
+                                            default => 'bg-warning',
+                                        };
+                                    @endphp
+
+                                    <span class="badge {{ $badgeClass }}">{{ ucfirst($excuse->status) }}</span>
+                                </div>
+                                <p>{{ $excuse->created_at }}</p>
+                            </div>
+                        </li>
+                    @empty
+                        Data tidak ada
+                    @endforelse
                 </ul>
             </div>
         </div>

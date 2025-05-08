@@ -1,16 +1,35 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Excuse;
 
 use Illuminate\Http\Request;
 
 class ExcuseController extends Controller
 {
     public function index() {
-        return view('excuse.app');
+        $excuses = Excuse::all();
+        return view('excuse.app',[
+            'excuses' => $excuses,
+        ]);
     }
 
-    public function show() {
-        return view('excuse.detail');
+
+    public function show($id) {
+        $data = Excuse::findOrFail($id);
+        return view('excuse.detail', [
+            'excuse' => $data,
+        ]);
+    }
+
+    public function approve($id) {
+        $data= Excuse::findOrFail($id);
+        $data->update(['status' => 'approve']);
+        return redirect('/excuse')->with('success', 'Excuse approved successfully');
+    }
+    public function cancel($id) {
+        $data= Excuse::findOrFail($id);
+        $data->update(['status' => 'cancel']);
+        return redirect('/excuse')->with('success', 'Excuse canceled');
     }
 }

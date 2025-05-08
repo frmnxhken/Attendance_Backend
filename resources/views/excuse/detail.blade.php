@@ -5,23 +5,25 @@
                 <div class="card-body">
                     <ul class="list-group mb-3">
                         <li class="list-group-item">
-                            8928924
+                            {{ $excuse->user->nip }}
                         </li>
                         <li class="list-group-item">
-                            Wahyudi Firmansyah
+                            {{ $excuse->user->name }}
                         </li>
                         <li class="list-group-item">
-                            Sakit
+                            {{ $excuse->reason }}
                         </li>
                         <li class="list-group-item">
                         Tdai malam saya pusing ga enak badan dan paginya ke dokter disuruh istirahat karena kelelahan
                         </li>
                     </ul>
                     <div class="d-flex gap-2">
-                        <form action="" method="post">
+                        <form action="{{ route("approve", $excuse->id) }}" method="post">
+                            @csrf
                             <button class="btn btn-success">Approve</button>
                         </form>
-                        <form action="" method="post">
+                        <form action="{{ route("cancel", $excuse->id) }}" method="post">
+                            @csrf
                             <button class="btn btn-danger">Cancel</button>
                         </form>
                     </div>
