@@ -112,7 +112,7 @@ class AttendanceService
         } elseif ($attendance->checkin && !$attendance->checkout) {
             $status = 'checkout';
         } else {
-            $status = 'disable';
+            $status = 'done';
         }
 
         return $status;

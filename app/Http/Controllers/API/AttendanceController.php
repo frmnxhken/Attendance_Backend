@@ -83,7 +83,7 @@ class AttendanceController extends Controller
         $status = $this->service->attendanceStatus($today);
         return response()->json([
             'message' => 'Status attendance today',
-            'status' => $status
+            'attendance' => $status
         ]);
     }
 }
