@@ -14,7 +14,7 @@
                             {{ $excuse->reason }}
                         </li>
                         <li class="list-group-item">
-                        Tdai malam saya pusing ga enak badan dan paginya ke dokter disuruh istirahat karena kelelahan
+                            {{ $excuse->description }}
                         </li>
                     </ul>
                     <div class="d-flex gap-2">
