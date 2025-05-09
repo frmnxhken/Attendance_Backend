@@ -15,9 +15,16 @@ class UserResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'nip' => $this->nip,
             'name' => $this->name,
             'email' => $this->email,
-            'office' => $this->office->name
+            'gender' => $this->gender,
+            'address' => $this->address,
+            'photo' => $this->photo ? $this->photo :
+                    'https://akcdn.detik.net.id/visual/2021/09/08/karina-aespa-4_43.jpeg?w=720&q=90',
+            'office' => $this->office->name,
+            'office_lat' => $this->office->lat,
+            'office_long' => $this->office->long,
         ];
     }
 }
