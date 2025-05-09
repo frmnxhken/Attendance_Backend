@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Attendance;
 use App\Services\AttendanceService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class AttendanceController extends Controller
@@ -78,12 +78,15 @@ class AttendanceController extends Controller
     }
 
     public function checkStatus() {
+        $user = Auth::user();
         $today = Carbon::today();
-
         $status = $this->service->attendanceStatus($today);
+
         return response()->json([
             'message' => 'Status attendance today',
-            'attendance' => $status
+            'attendance' => $status,
+            'office_lat' => $user->office->lat,
+            'office_long' => $user->office->long,
         ]);
     }
 }
