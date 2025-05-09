@@ -11,7 +11,7 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::get('/helloworld', function() {
+Route::get('/helloworld', function () {
     return response()->json([
         "message" => "Hello World!"
     ]);
@@ -20,13 +20,17 @@ Route::get('/helloworld', function() {
 Route::post('/auth', [UserController::class, "authentication"]);
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/profile', [UserController::class, 'getProfile']);
-    
+
+    Route::post('/logout', [UserController::class, 'deauthentication']);
+
+    Route::post('/user/update-photo', [UserController::class, 'updatePhoto']);
+
     Route::get('/history/recent', [HistoryController::class, 'recent']);
     Route::get('/history', [HistoryController::class, 'histories']);
-    
+
     Route::get('/status', [AttendanceController::class, 'checkStatus']);
     Route::post('/checkin', [AttendanceController::class, 'checkIn']);
     Route::post('/checkout', [AttendanceController::class, 'checkOut']);
-    
+
     Route::post('/excuse/request', [ExcuseController::class, 'requestExcuse']);
 });
