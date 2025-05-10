@@ -32,19 +32,9 @@
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-body overflow-hidden position-relative">
-                            <iconify-icon icon="solar:leaf-bold-duotone" class="fs-2 text-primary"></iconify-icon>
+                            <img src="{{ asset('assets/icons/present.svg') }}" alt="persent" class="w-6 h-6">
                             <h3 class="mb-0 fw-bold mt-3 mb-1">{{ $statistic['present'] }}</h3>
                             <p class="text-muted">Total Present</p>
-                            <i class="ri-survey-line widget-icon"></i>
-                        </div> 
-                    </div> 
-                </div>
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-body overflow-hidden position-relative">
-                            <iconify-icon icon="solar:flame-bold-duotone" class="fs-2 text-warning"></iconify-icon>    
-                            <h3 class="mb-0 fw-bold mt-3 mb-1">{{ $statistic['late'] }}</h3>
-                            <p class="text-muted">Total Late</p>
                             <i class="ri-arrow-right-down-line widget-icon"></i>
                         </div> 
                     </div> 
@@ -52,7 +42,17 @@
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-body overflow-hidden position-relative">
-                            <iconify-icon icon="solar:bookmark-circle-bold-duotone" class="fs-2 text-success"></iconify-icon>    
+                            <img src="{{ asset('assets/icons/Late.svg') }}" alt="Late" class="w-6 h-6">
+                            <h3 class="mb-0 fw-bold mt-3 mb-1">{{ $statistic['late'] }}</h3>
+                            <p class="text-muted">Total Late</p>
+                            <i class="ri-time-line widget-icon"></i>
+                        </div> 
+                    </div> 
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body overflow-hidden position-relative">
+                            <img src="{{ asset('assets/icons/Excuse.svg') }}" alt="Excuse" class="w-6 h-6">
                             <h3 class="mb-0 fw-bold mt-3 mb-1">{{ $statistic['excused'] }}</h3>
                             <p class="text-muted">Total Excused</p>
                             <i class="ri-mail-open-line widget-icon"></i>
@@ -62,10 +62,10 @@
                 <div class="col-md-6">
                     <div class="card">
                         <div class="card-body overflow-hidden position-relative">
-                            <iconify-icon icon="solar:ghost-line-duotone" class="fs-2 text-danger"></iconify-icon>    
+                            <img src="{{ asset('assets/icons/Absent.svg') }}" alt="Absent" class="w-6 h-6">  
                             <h3 class="mb-0 fw-bold mt-3 mb-1">{{ $statistic['absent'] }}</h3>
                             <p class="text-muted">Total Absent</p>
-                            <i class="ri-time-line widget-icon"></i>
+                            <i class="ri-survey-line widget-icon"></i>
                         </div> 
                     </div> 
                 </div>

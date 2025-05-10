@@ -1,33 +1,33 @@
 <x-layout>
     <div class="row">
-        <div class="card">
-            <div class="card-body">
-                <div class="mb-3">
-                    <h4 class="text-dark">Attendance Today</h4>
+        @foreach($attendances as $date => $records)
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <h4 class="text-dark">
+                            {{ \Carbon\Carbon::parse($date)->isToday() ? 'Attendance Today' : \Carbon\Carbon::parse($date)->format('d M Y') }}
+                        </h4>
+                    </div>
+                    <table class="table table-hover">
+                        @foreach($records as $attendance)
+                            <tr>
+                                <td>{{ $attendance->user->name }}</td>
+                                <td>Checkin: {{ $attendance->checkin ?? '--:--' }}</td>
+                                <td>Checkout: {{ $attendance->checkout ?? '--:--' }}</td>
+                                <td>
+                                    @if($attendance->status == 'present')
+                                        <span class="badge bg-success">Present</span>
+                                    @elseif($attendance->status == 'excuse')
+                                        <span class="badge bg-warning">Excuse</span>
+                                    @else
+                                        <span class="badge bg-danger">Absent</span>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
                 </div>
-                <table class="table table-hover">
-                    @foreach($attendances as $attendance)
-                        <tr>
-                            <td>{{ $attendance->user->name }}</td>
-                            <td>Checkin: 
-                                {{ $attendance->checkin ? $attendance->checkin : '--:--' }}
-                            </td>
-                            <td>Checkout: 
-                                {{ $attendance->checkout ? $attendance->checkout : '-- : --' }}
-                            </td>
-                            <td>
-                                @if($attendance->status == 'present')
-                                    <span class="badge bg-success">Present</span>
-                                @elseif($attendance->status == 'present')
-                                    <span class="badge bg-warning">Excuse</span>
-                                @else
-                                    <span class="badge bg-danger">Absent</span>
-                                @endif
-                            </td>
-                        </tr>
-                    @endforeach
-                </table>
             </div>
-        </div>
+        @endforeach
     </div>
 </x-layout>
