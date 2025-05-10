@@ -1,5 +1,16 @@
 <x-layout>
     <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <h4 class="mb-0 fw-bold">Employee</h4>
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Employee</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <div class="row">
         <div class="card">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-3">

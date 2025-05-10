@@ -1,14 +1,22 @@
 <x-layout>
     <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <h4 class="mb-0 fw-bold">Excuse</h4>
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Excuse</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <div class="row">
         <div class="card">
             <div class="card-body">
-                <div class="mb-3">
-                    <h4 class="text-dark">Excuse</h4>
-                </div>
-                <ul class="list-group">
+                <table class="table table-hover">
                     @forelse ($excuses as $excuse)
-                        <li class="list-group-item list-group-item-action">
-                            <div class="d-flex justify-content-between">
+                        <tr>
+                            <td class="d-flex justify-content-between">
                                 <div>
                                     <p><a href="/excuse/detail/{{ $excuse->id }}">{{ $excuse->user->name }}</a></p>
                                     @php
@@ -23,12 +31,12 @@
                                     <span class="badge {{ $badgeClass }}">{{ ucfirst($excuse->status) }}</span>
                                 </div>
                                 <p>{{ $excuse->created_at }}</p>
-                            </div>
-                        </li>
+                            </td>
+                        </tr>
                     @empty
                         Data tidak ada
                     @endforelse
-                </ul>
+                </table>
             </div>
         </div>
     </div>
