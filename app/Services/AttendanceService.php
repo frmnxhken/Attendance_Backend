@@ -13,11 +13,24 @@ class AttendanceService
     {
         $user = Auth::user();
         $office = $user->office;
+        $today = Carbon::today()->format('Y-m-d');
+
+        $attendance = Attendance::where('user_id', $user->id)
+            ->where('date', $today)
+            ->first();
+
+        if ($attendance) {
+            if ($attendance->checkin) {
+                return ['error' => 'Already checked in today'];
+            } elseif ($attendance->checkout) {
+                return ['error' => 'Already checked out today'];
+            }
+        }
 
         $distance = $this->geo_distance($data['checkin_lat'], $data['checkin_long'], $office->lat, $office->long);
 
         if ($distance > 2) {
-            return ['error' => 'Check-in must be within 2KM of office location', 'distance' => $distance];
+            return ['error' => 'Check-in must be within 2KM of office location'];
         }
 
         $photoPath = $this->saveAttendancePhoto($data['checkin_photo'], 'checkin');

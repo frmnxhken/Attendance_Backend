@@ -17,6 +17,8 @@ class DashboardController extends Controller
 
         $excuses = Excuse::where('status', 'pending')->get();
 
+        $late = Attendance::where('checkin', '>', Carbon::today()->setTime(8, 0, 0))->get();
+
         $todayAttendances = Attendance::with('user')
             ->whereDate('date', Carbon::today())
             ->orderBy('checkin', 'asc')
@@ -26,11 +28,22 @@ class DashboardController extends Controller
             ->where('checkin', '>', Carbon::today()->setTime(8, 0, 0))
             ->count();
 
+        $totalCheckins = Attendance::whereDate('date', Carbon::today())->count();
+
+        $checkedInUserIds = Attendance::whereDate('date', Carbon::today())->pluck('user_id')->toArray();
+
+        $notCheckedInUsers = User::whereNotIn('id', $checkedInUserIds)->get();
+        $totalNotCheckedIn = $notCheckedInUsers->count();
+
         return view('dashboard.app', compact(
             'users',
             'excuses',
+            'late',
             'todayAttendances',
-            'totalLateCheckins'
+            'totalLateCheckins',
+            'totalCheckins',
+            'totalNotCheckedIn',
+            'notCheckedInUsers'
         ));
     }
 }

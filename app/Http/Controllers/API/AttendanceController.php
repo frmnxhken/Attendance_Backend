@@ -21,7 +21,7 @@ class AttendanceController extends Controller
     public function checkIn(Request $request)
     {
         $validation = Validator::make($request->all(), [
-            'date' => 'required|date|unique:attendances,date',
+            'date' => 'required|date',
             'checkin' => 'required|date_format:H:i',
             'checkin_long' => 'required',
             'checkin_lat' => 'required',
@@ -36,7 +36,7 @@ class AttendanceController extends Controller
         $result = $this->service->checkIn($request->all());
 
         if (isset($result['error'])) {
-            return response()->json(['message' => $result['error'], 'distance_km' => $result['distance']], 403);
+            return response()->json(['message' => $result['error']], 403);
         }
 
         return response()->json([

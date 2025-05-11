@@ -41,11 +41,23 @@
         <div class="col">
             <div class="card">
                 <div class="card-body overflow-hidden position-relative">
+                    <img src="{{ asset('assets/icons/present.svg') }}" alt="persent" class="w-6 h-6">
+                    <h3 class="mb-0 fw-bold mt-3 mb-1">{{ $totalCheckins }}</h3>
+                    <p class="text-muted">Present Today</p>
+                    {{-- <span class="badge fs-12 badge-soft-danger"><i class="ti ti-arrow-badge-down"></i> 3.28%</span> --}}
+                    <i class="ri-arrow-right-down-line widget-icon"></i>
+                </div> <!-- end card-body -->
+            </div> <!-- end card -->
+        </div> <!-- end col -->
+
+        <div class="col">
+            <div class="card">
+                <div class="card-body overflow-hidden position-relative">
                     <img src="{{ asset('assets/icons/Late.svg') }}" alt="Late" class="w-6 h-6">
                     <h3 class="mb-0 fw-bold mt-3 mb-1">{{ $totalLateCheckins }}</h3>
                     <p class="text-muted">Late Days</p>
                     {{-- <span class="badge fs-12 badge-soft-danger"><i class="ti ti-arrow-badge-down"></i> 5.69%</span> --}}
-                            <i class="ri-time-line widget-icon"></i>
+                    <i class="ri-time-line widget-icon"></i>
                 </div> <!-- end card-body -->
             </div> <!-- end card -->
         </div> <!-- end col -->
@@ -53,23 +65,11 @@
         <div class="col">
             <div class="card">
                 <div class="card-body overflow-hidden position-relative">
-                    <iconify-icon icon="solar:crown-star-bold-duotone" class="fs-36 text-danger"></iconify-icon>
-                    <h3 class="mb-0 fw-bold mt-3 mb-1">$11.3k</h3>
-                    <p class="text-muted">Savings</p>
+                    <img src="{{ asset('assets/icons/Absent.svg') }}" alt="Absent" class="w-6 h-6">
+                    <h3 class="mb-0 fw-bold mt-3 mb-1">{{ $totalNotCheckedIn }}</h3>
+                    <p class="text-muted">Not Checked in yet</p>
                     {{-- <span class="badge fs-12 badge-soft-success"><i class="ti ti-arrow-badge-up"></i> 10.58%</span> --}}
-                    <i class='ri-hand-heart-line widget-icon'></i>
-                </div> <!-- end card-body -->
-            </div> <!-- end card -->
-        </div> <!-- end col -->
-
-        <div class="col">
-            <div class="card">
-                <div class="card-body overflow-hidden position-relative">
-                    <iconify-icon icon="solar:cpu-bolt-line-duotone" class="fs-36 text-warning"></iconify-icon>
-                    <h3 class="mb-0 fw-bold mt-3 mb-1">$5.5k</h3>
-                    <p class="text-muted">Profits</p>
-                    {{-- <span class="badge fs-12 badge-soft-success"><i class="ti ti-arrow-badge-up"></i> 2.25%</span> --}}
-                    <i class='ri-stack-line widget-icon'></i>
+                    <i class="ri-survey-line widget-icon"></i>
                 </div> <!-- end card-body -->
             </div> <!-- end card -->
         </div> <!-- end col -->
@@ -77,7 +77,7 @@
     <!-- end row-->
 
     <div class="row">
-        <div class="col-xl-7">
+        {{-- <div class="col-xl-7">
             <div class="card">
                 <div class="card-body p-0">
                     <div class="pt-3 px-3">
@@ -90,7 +90,29 @@
                     </div>
                 </div> <!-- end card body -->
             </div> <!-- end card -->
-        </div> <!-- end col -->
+        </div> <!-- end col --> --}}
+        <div class="col-lg-7 border-start border-5">
+            <div class="p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4 class="card-title">Attendance Overview+</h4>
+                    <div>
+                        <button type="button" class="btn btn-sm btn-outline-light">ALL</button>
+                        <button type="button" class="btn btn-sm btn-outline-light">1M</button>
+                        <button type="button" class="btn btn-sm btn-outline-light">6M</button>
+                        <button type="button" class="btn btn-sm btn-outline-light active">1Y</button>
+                    </div>
+                </div> <!-- end card-title-->
+
+                {{-- <div class="alert alert-info mt-3 text text-truncate mb-0" role="alert">
+                    We regret to inform you that our server is currently experiencing technical
+                    difficulties.
+                </div> --}}
+
+                <div dir="ltr">
+                    <div id="dash-performance-chart" class="apex-charts"></div>
+                </div>
+            </div>
+        </div> <!-- end right chart card -->
         <div class="col-xl-5">
             <div class="card">
                 <div class="card-body ">
@@ -100,13 +122,13 @@
                         </a>
                     </div>
                     <h5 class="card-title mb-3">Today Attendances</h5>
-                    
+
                     <div class="mb-3" data-simplebar style="max-height: 324px;">
                         <div class="table-responsive table-centered table-nowrap px-3">
                             <table class="table table-hover mb-0">
                                 <thead>
                                     <tr>
-                                        <th>Nama</th>
+                                        <th>Name</th>
                                         <th>Check-in</th>
                                         <th>Check-out</th>
                                         <th>Status</th>
@@ -114,22 +136,22 @@
                                 </thead> <!-- end thead -->
                                 <tbody>
                                     @forelse($todayAttendances as $attendance)
-                                    <tr>
-                                        <td>{{ $attendance->user->name }}</td>
-                                        <td>{{ $attendance->checkin }}</td>
-                                        <td>{{ $attendance->checkout ?? '-' }}</td>
-                                        <td>
-                                            @if($attendance->checkout)
-                                                <span style="color: green;">Sudah Check-out</span>
-                                            @else
-                                                <span style="color: red;">Belum Check-out</span>
-                                            @endif
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <td>{{ $attendance->user->name }}</td>
+                                            <td>{{ $attendance->checkin }}</td>
+                                            <td>{{ $attendance->checkout ?? '-' }}</td>
+                                            <td>
+                                                @if ($attendance->checkout)
+                                                    <span style="color: green;">Already Checked-out</span>
+                                                @else
+                                                    <span style="color: red;">Not Checked-out Yet</span>
+                                                @endif
+                                            </td>
+                                        </tr>
                                     @empty
-                                    <tr>
-                                        <td colspan="4">Belum ada yang check-in hari ini.</td>
-                                    </tr>
+                                        <tr>
+                                            <td colspan="4">Belum ada yang check-in hari ini.</td>
+                                        </tr>
                                     @endforelse
                                 </tbody> <!-- end tbody -->
                             </table> <!-- end table -->
