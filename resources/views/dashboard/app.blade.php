@@ -20,7 +20,7 @@
                     <iconify-icon icon="solar:asteroid-bold-duotone" class="fs-36 text-info"></iconify-icon>
                     <h3 class="mb-0 fw-bold mt-3 mb-1">{{ $users->count() }}</h3>
                     <p class="text-muted">Total Employees</p>
-                    <span class="badge fs-12 badge-soft-success"><i class="ti ti-arrow-badge-up"></i> 8.72%</span>
+                    {{-- <span class="badge fs-12 badge-soft-success"><i class="ti ti-arrow-badge-up"></i> 8.72%</span> --}}
                     <i class='ri-global-line widget-icon'></i>
                 </div> <!-- end card-body -->
             </div> <!-- end card -->
@@ -29,11 +29,11 @@
         <div class="col">
             <div class="card">
                 <div class="card-body overflow-hidden position-relative">
-                    <iconify-icon icon="solar:black-hole-line-duotone" class="fs-36 text-success"></iconify-icon>
+                    <img src="{{ asset('assets/icons/Excuse.svg') }}" alt="Excuse" class="w-6 h-6">
                     <h3 class="mb-0 fw-bold mt-3 mb-1">{{ $excuses->count() }}</h3>
                     <p class="text-muted">Pending Leave</p>
-                    <span class="badge fs-12 badge-soft-danger"><i class="ti ti-arrow-badge-down"></i> 3.28%</span>
-                    <i class='ri-file-chart-line widget-icon'></i>
+                    {{-- <span class="badge fs-12 badge-soft-danger"><i class="ti ti-arrow-badge-down"></i> 3.28%</span> --}}
+                    <i class="ri-mail-open-line widget-icon"></i>
                 </div> <!-- end card-body -->
             </div> <!-- end card -->
         </div> <!-- end col -->
@@ -41,11 +41,11 @@
         <div class="col">
             <div class="card">
                 <div class="card-body overflow-hidden position-relative">
-                    <iconify-icon icon="solar:leaf-bold-duotone" class="fs-36 text-primary"></iconify-icon>
-                    <h3 class="mb-0 fw-bold mt-3 mb-1">{{ $late->count() }}</h3>
+                    <img src="{{ asset('assets/icons/Late.svg') }}" alt="Late" class="w-6 h-6">
+                    <h3 class="mb-0 fw-bold mt-3 mb-1">{{ $totalLateCheckins }}</h3>
                     <p class="text-muted">Late Days</p>
-                    <span class="badge fs-12 badge-soft-danger"><i class="ti ti-arrow-badge-down"></i> 5.69%</span>
-                    <i class='ri-drag-move-line widget-icon'></i>
+                    {{-- <span class="badge fs-12 badge-soft-danger"><i class="ti ti-arrow-badge-down"></i> 5.69%</span> --}}
+                            <i class="ri-time-line widget-icon"></i>
                 </div> <!-- end card-body -->
             </div> <!-- end card -->
         </div> <!-- end col -->
@@ -56,7 +56,7 @@
                     <iconify-icon icon="solar:crown-star-bold-duotone" class="fs-36 text-danger"></iconify-icon>
                     <h3 class="mb-0 fw-bold mt-3 mb-1">$11.3k</h3>
                     <p class="text-muted">Savings</p>
-                    <span class="badge fs-12 badge-soft-success"><i class="ti ti-arrow-badge-up"></i> 10.58%</span>
+                    {{-- <span class="badge fs-12 badge-soft-success"><i class="ti ti-arrow-badge-up"></i> 10.58%</span> --}}
                     <i class='ri-hand-heart-line widget-icon'></i>
                 </div> <!-- end card-body -->
             </div> <!-- end card -->
@@ -68,7 +68,7 @@
                     <iconify-icon icon="solar:cpu-bolt-line-duotone" class="fs-36 text-warning"></iconify-icon>
                     <h3 class="mb-0 fw-bold mt-3 mb-1">$5.5k</h3>
                     <p class="text-muted">Profits</p>
-                    <span class="badge fs-12 badge-soft-success"><i class="ti ti-arrow-badge-up"></i> 2.25%</span>
+                    {{-- <span class="badge fs-12 badge-soft-success"><i class="ti ti-arrow-badge-up"></i> 2.25%</span> --}}
                     <i class='ri-stack-line widget-icon'></i>
                 </div> <!-- end card-body -->
             </div> <!-- end card -->
@@ -77,7 +77,7 @@
     <!-- end row-->
 
     <div class="row">
-        <div class="col-xl-6">
+        <div class="col-xl-7">
             <div class="card">
                 <div class="card-body p-0">
                     <div class="pt-3 px-3">
@@ -91,7 +91,7 @@
                 </div> <!-- end card body -->
             </div> <!-- end card -->
         </div> <!-- end col -->
-        <div class="col-xl-4">
+        <div class="col-xl-5">
             <div class="card">
                 <div class="card-body ">
                     <div class="dropdown float-end">
@@ -99,24 +99,38 @@
                             View All
                         </a>
                     </div>
-                    <h5 class="card-title mb-3">Recent Attendances</h5>
+                    <h5 class="card-title mb-3">Today Attendances</h5>
                     
                     <div class="mb-3" data-simplebar style="max-height: 324px;">
                         <div class="table-responsive table-centered table-nowrap px-3">
                             <table class="table table-hover mb-0">
                                 <thead>
                                     <tr>
-                                        <th>Project</th>
-                                        <th>Client</th>
-                                        <th>Team</th>
+                                        <th>Nama</th>
+                                        <th>Check-in</th>
+                                        <th>Check-out</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead> <!-- end thead -->
                                 <tbody>
+                                    @forelse($todayAttendances as $attendance)
                                     <tr>
-                                        <td>Zelogy</td>
-                                        <td>Daniel Olsen</td>
-                                        <td>12 April 2024</td>
+                                        <td>{{ $attendance->user->name }}</td>
+                                        <td>{{ $attendance->checkin }}</td>
+                                        <td>{{ $attendance->checkout ?? '-' }}</td>
+                                        <td>
+                                            @if($attendance->checkout)
+                                                <span style="color: green;">Sudah Check-out</span>
+                                            @else
+                                                <span style="color: red;">Belum Check-out</span>
+                                            @endif
+                                        </td>
                                     </tr>
+                                    @empty
+                                    <tr>
+                                        <td colspan="4">Belum ada yang check-in hari ini.</td>
+                                    </tr>
+                                    @endforelse
                                 </tbody> <!-- end tbody -->
                             </table> <!-- end table -->
                         </div> <!-- end table responsive -->

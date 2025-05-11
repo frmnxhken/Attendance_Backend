@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\User;
 use App\Models\Excuse;
 use App\Models\Attendance;
@@ -10,12 +11,26 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         $users = User::orderBy('name')->get();
+
         $excuses = Excuse::where('status', 'pending')->get();
-        $late = Attendance::where('checkin', '>', Carbon::today()->setTime(8, 0, 0))->get();
-        return view('dashboard.app', compact('users', 'excuses','late'));
+
+        $todayAttendances = Attendance::with('user')
+            ->whereDate('date', Carbon::today())
+            ->orderBy('checkin', 'asc')
+            ->get();
+
+        $totalLateCheckins = Attendance::whereDate('date', Carbon::today())
+            ->where('checkin', '>', Carbon::today()->setTime(8, 0, 0))
+            ->count();
+
+        return view('dashboard.app', compact(
+            'users',
+            'excuses',
+            'todayAttendances',
+            'totalLateCheckins'
+        ));
     }
 }
-
-
