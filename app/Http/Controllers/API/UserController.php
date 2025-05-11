@@ -107,4 +107,30 @@ class UserController extends Controller
             'message' => 'Password updated successfully'
         ]);
     }
+
+    public function resetPassword(Request $request) {
+        $validation = Validator::make($request->all(),[
+            'nip' => 'required',
+            'email' => 'required|email',
+        ]);
+
+        if($validation->fails()) {
+            return response()->json(['message' => $validation->errors()]);
+        }
+        
+        $user = User::where('nip', $request->nip)
+        ->where('email', $request->email)->first();
+        
+        if(!$user) {
+            return response()->json(['message' => 'Credential is Invalid']);
+        }
+
+        $user->update([
+            'password' => bcrypt($user->nip)
+        ]);
+        
+        return response()->json([
+            'message' => 'Reset password successfully'
+        ]);
+    }
 }
