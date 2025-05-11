@@ -7,6 +7,7 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -65,7 +66,6 @@ class UserController extends Controller
 
         $user = Auth::user();
 
-        // Hapus foto lama kalo ada
         if (!is_null($user->photo)) {
             $oldPhotoPath = public_path($user->photo);
             if (file_exists($oldPhotoPath)) {
@@ -73,17 +73,38 @@ class UserController extends Controller
             }
         }
 
-        // Simpan foto baru
         $photoName = time() . '_' . $request->file('photo')->getClientOriginalName();
         $request->file('photo')->move(public_path('uploads/photos'), $photoName);
 
-        // Update kolom foto di database
         $user->photo = 'uploads/photos/' . $photoName;
         $user->save();
 
         return response()->json([
             'message' => 'Photo updated successfully',
-            'photo_url' => asset($user->photo),
+            'photo' => asset($user->photo),
         ], 200);
+    }
+
+    public function updatePassword(Request $request) {
+        $validation = Validator::make($request->all(), [
+            'current_password' => 'required',
+            'new_password' => 'required|min:8|confirmed',
+        ]);
+    
+        $user = Auth::user();
+    
+        if (!Hash::check($request->current_password, $user->password)) {
+            return response()->json([
+                'message' => 'Current password is incorrect.'
+            ]);
+        }
+    
+        User::findOrFail($user->id)->update([
+            'password' => Hash::make($request->new_password)
+        ]);
+
+        return response()->json([
+            'message' => 'Password updated successfully'
+        ]);
     }
 }

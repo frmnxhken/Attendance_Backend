@@ -20,7 +20,7 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'gender' => $this->gender,
             'address' => $this->address,
-            'photo' => $this->photo ? $this->photo :
+            'photo' => $this->photo ? config('app.url') .'/'. $this->photo :
                     'https://akcdn.detik.net.id/visual/2021/09/08/karina-aespa-4_43.jpeg?w=720&q=90',
             'office' => $this->office->name,
             'office_lat' => $this->office->lat,
