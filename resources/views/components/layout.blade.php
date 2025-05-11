@@ -36,12 +36,12 @@
                             </div>
 
                             <!-- App Search-->
-                            <form class="app-search d-none d-md-block me-auto">
+                            {{-- <form class="app-search d-none d-md-block me-auto">
                                 <div class="position-relative">
                                     <input type="search" class="form-control border-0" placeholder="Search..." autocomplete="off" value="">
                                     <i class="ri-search-line search-widget-icon"></i>
                                 </div>
-                            </form>
+                            </form> --}}
                         </div>
 
                         <div class="d-flex align-items-center gap-1">
@@ -62,7 +62,7 @@
                             </div>
 
                             <!-- Notification -->
-                            <div class="dropdown topbar-item">
+                            {{-- <div class="dropdown topbar-item">
                                 <button type="button" class="topbar-button position-relative" id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="ri-notification-3-line fs-24"></i>
                                     <span class="position-absolute topbar-badge fs-10 translate-middle badge bg-danger rounded-pill">3<span class="visually-hidden">unread messages</span></span>
@@ -159,7 +159,7 @@
                                         <a href="javascript:void(0);" class="btn btn-primary btn-sm">View All Notification <i class="ri-arrow-right-line ms-1"></i></a>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
 
                             <!-- Theme Setting -->
                             <div class="topbar-item d-none d-md-flex">
@@ -448,7 +448,8 @@
 
     <script src="{{ asset('/assets') }}/js/vendor.js"></script>
     <script src="{{ asset('/assets') }}/js/app.js"></script>
-    <script src="{{ asset('/assets') }}/js/widgets.js"></script>
+    <script src="{{ asset('/assets') }}/js/chart.js"></script>
+    {{-- <script src="{{ asset('/assets') }}/js/widgets.js"></script> --}}
 
 </body>
 
