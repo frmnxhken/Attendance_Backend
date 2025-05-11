@@ -24,6 +24,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [UserController::class, 'deauthentication']);
 
     Route::post('/user/update-photo', [UserController::class, 'updatePhoto']);
+    Route::post('/user/update-password', [UserController::class, 'updatePassword']);
 
     Route::get('/history/recent', [HistoryController::class, 'recent']);
     Route::get('/history', [HistoryController::class, 'histories']);
