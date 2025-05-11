@@ -43,7 +43,7 @@ class UserController extends Controller
     public function deauthentication()
     {
         $user = Auth::user();
-        $user->tokens()->delete();
+        $user->currentAccessToken()->delete();
         return response()->json([
             'message' => 'Logout successful'
         ]);
