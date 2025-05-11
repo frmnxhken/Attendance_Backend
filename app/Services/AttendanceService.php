@@ -75,7 +75,7 @@ class AttendanceService
         $distance = $this->geo_distance($data['checkout_lat'], $data['checkout_long'], $office->lat, $office->long);
 
         if ($distance > 2) {
-            return ['error' => 'Check-out must be within 2KM of office location', 'distance' => $distance];
+            return ['error' => 'Check-out must be within 2KM of office location'];
         }
 
         $photoPath = $this->saveAttendancePhoto($data['checkout_photo'], 'checkout');

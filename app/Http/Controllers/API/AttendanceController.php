@@ -63,7 +63,7 @@ class AttendanceController extends Controller
         $result = $this->service->checkOut($request->all());
 
         if (isset($result['error'])) {
-            return response()->json(['message' => $result['error'], 'distance_km' => $result['distance']], 403);
+            return response()->json(['message' => $result['error']], 403);
         }
 
         if (isset($result['not_found'])) {
