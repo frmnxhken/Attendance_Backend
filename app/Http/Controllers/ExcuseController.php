@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\Excuse;
 
-use Illuminate\Http\Request;
+use App\Models\Attendance;
+use App\Models\Excuse;
+use Carbon\Carbon;
 
 class ExcuseController extends Controller
 {
@@ -18,8 +19,16 @@ class ExcuseController extends Controller
     }
 
     public function approve($id) {
+        $today = Carbon::today()->format('Y-m-d');
         $data = Excuse::findOrFail($id);
         $data->update(['status' => 'approve']);
+
+        Attendance::create([
+            'user_id' => $data->user_id,
+            'date' => $today,
+            'status' => 'Excuse'
+        ]);
+
         return redirect('/excuse')->with('success', 'Excuse approved successfully');
     }
 
