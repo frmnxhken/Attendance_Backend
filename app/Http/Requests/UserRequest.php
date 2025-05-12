@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class OfficeRequest extends FormRequest
+class UserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,13 +21,14 @@ class OfficeRequest extends FormRequest
      */
     public function rules(): array
     {
-        $id = $this->route('office');
+        $id = $this->route('employee');
 
         return [
-            'name' => 'required|unique:offices,name' . ($id ? ",$id" : ''),
-            'long' => 'required',
-            'lat' => 'required',
-            'radius' => 'required',
+            'nip' => 'required|unique:users,nip' . ($id ? ",$id" : ''),
+            'name' => 'required',
+            'email' => 'required|email',
+            'gender' => 'required',
+            'office_id' => 'required',
             'address' => 'required',
         ];
     }
