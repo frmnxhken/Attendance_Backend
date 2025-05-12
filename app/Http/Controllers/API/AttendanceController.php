@@ -42,7 +42,8 @@ class AttendanceController extends Controller
         return response()->json([
             'message' => 'Check-in recorded',
             'data' => $result['attendance'],
-            'total_minutes' => $result['balance']->total_minutes
+            'total_minutes' => $result['balance']->total_minutes,
+            'distance' => $result['distance']
         ]);
     }
 

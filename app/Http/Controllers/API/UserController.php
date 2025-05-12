@@ -20,7 +20,7 @@ class UserController extends Controller
         ]);
 
         if ($validation->fails()) {
-            return response()->json(['message' => $validation->errors()]);
+            return response()->json(['errors' => $validation->errors()], 422);
         }
 
         if (!Auth::attempt($request->only(['email', 'password']))) {
@@ -61,7 +61,7 @@ class UserController extends Controller
     public function updatePhoto(Request $request)
     {
         $request->validate([
-            'photo' => 'required|image|mimes:jpeg,png,jpg|max:2048', // Validasi file foto
+            'photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         $user = Auth::user();
@@ -90,6 +90,10 @@ class UserController extends Controller
             'current_password' => 'required',
             'new_password' => 'required|min:8|confirmed',
         ]);
+
+        if ($validation->fails()) {
+            return response()->json(['errors' => $validation->errors()], 422);
+        }
     
         $user = Auth::user();
     
@@ -115,7 +119,7 @@ class UserController extends Controller
         ]);
 
         if($validation->fails()) {
-            return response()->json(['message' => $validation->errors()]);
+            return response()->json(['errors' => $validation->errors()], 422);
         }
         
         $user = User::where('nip', $request->nip)

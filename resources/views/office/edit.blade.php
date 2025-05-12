@@ -10,14 +10,19 @@
                     <input type="text" class="form-control" name="name" value="{{ old('name', $office->name) }}">
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label class="form-label">Longitude Coordinate</label>
                     <input type="text" class="form-control" name="long" value="{{ old('long', $office->long) }}">
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label class="form-label">Latitude Coordinate</label>
                     <input type="text" class="form-control" name="lat" value="{{ old('lat', $office->lat) }}">
+                </div>
+                
+                <div class="col-md-4">
+                    <label class="form-label">Radius</label>
+                    <input type="text" class="form-control" name="radius" value="{{ old('radius', $office->radius) }}">
                 </div>
 
                 <div class="col-md-12">

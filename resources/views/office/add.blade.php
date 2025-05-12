@@ -12,7 +12,7 @@
                     @enderror
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label for="long" class="form-label">Longitude Coordinate</label>
                     <input type="text" id="long" name="long" class="form-control @error('long') is-invalid @enderror" value="{{ old('long') }}">
                     @error('long')
@@ -20,10 +20,18 @@
                     @enderror
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label for="lat" class="form-label">Latitude Coordinate</label>
                     <input type="text" id="lat" name="lat" class="form-control @error('lat') is-invalid @enderror" value="{{ old('lat') }}">
                     @error('lat')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="col-md-4">
+                    <label for="lat" class="form-label">Radius</label>
+                    <input type="text" id="radius" name="radius" class="form-control @error('radius') is-invalid @enderror" value="{{ old('radius') }}">
+                    @error('radius')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>

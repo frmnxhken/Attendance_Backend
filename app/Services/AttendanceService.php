@@ -27,10 +27,11 @@ class AttendanceService
             }
         }
 
+        $radius = $office->radius;
         $distance = $this->geo_distance($data['checkin_lat'], $data['checkin_long'], $office->lat, $office->long);
 
-        if ($distance > 2) {
-            return ['error' => 'Check-in must be within 2KM of office location'];
+        if ($distance > $radius) {
+            return ['error' => 'Check-in must be within '.$radius.' of office location'];
         }
 
         $photoPath = $this->saveAttendancePhoto($data['checkin_photo'], 'checkin');
@@ -56,7 +57,7 @@ class AttendanceService
             'checkin_photo' => $photoPath,
             'checkin_lat' => $data['checkin_lat'],
             'checkin_long' => $data['checkin_long'],
-            'status' => 'present'
+            'status' => 'present',
         ]);
 
         $balance = WorkBalance::firstOrCreate(['user_id' => $user->id], ['total_minutes' => 0]);
@@ -64,7 +65,7 @@ class AttendanceService
         $balance->total_minutes -= $lateMinutes;
         $balance->save();
 
-        return ['attendance' => $attendance, 'balance' => $balance];
+        return ['attendance' => $attendance, 'balance' => $balance, 'distance' => $distance];
     }
 
     public function checkOut($data)
@@ -73,9 +74,10 @@ class AttendanceService
         $office = $user->office;
 
         $distance = $this->geo_distance($data['checkout_lat'], $data['checkout_long'], $office->lat, $office->long);
+        $radius = $office->radius;
 
         if ($distance > 2) {
-            return ['error' => 'Check-out must be within 2KM of office location'];
+            return ['error' => 'Check-out must be within '.$radius.' of office location'];
         }
 
         $photoPath = $this->saveAttendancePhoto($data['checkout_photo'], 'checkout');
@@ -171,6 +173,6 @@ class AttendanceService
             cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)
         ));
 
-        return round($earthRadius * $angle, 4);
+        return round(($earthRadius * $angle * 1000), 4);
     }
 }

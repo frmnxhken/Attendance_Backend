@@ -33,6 +33,7 @@ class OfficeController extends Controller
             'name' => 'required|unique:offices,name',
             'long' => 'required',
             'lat' => 'required',
+            'radius' => 'required',
             'address' => 'required'
         ]);
 
@@ -70,6 +71,7 @@ class OfficeController extends Controller
             'name' => 'required|unique:offices,name,'.$id,
             'long' => 'required',
             'lat' => 'required',
+            'radius' => 'required',
             'address' => 'required'
         ]);
 

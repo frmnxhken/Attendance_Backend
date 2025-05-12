@@ -14,14 +14,14 @@ class ExcuseController extends Controller
     public function requestExcuse(Request $request) {
         $validation = Validator::make($request->all(),[
             'reason' => 'required',
-            'proof' => 'required',
+            'proof' => 'required|image',
             'date' => 'required'
         ]);
 
         if($validation->fails()) {
             return response()->json([
-                'message' => $validation->errors()
-            ]);
+                'errors' => $validation->errors()
+            ], 422);
         }
 
         try {

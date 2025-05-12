@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->text('reason');
-            $table->text('description');
             $table->text('proof');
             $table->date('date');
             $table->enum('status', ['pending', 'approve', 'cancel']);
