@@ -33,10 +33,12 @@ class AttendanceSeeder extends Seeder
                     'checkin' => '08:00:00',
                     'checkin_long' => 106.8456,
                     'checkin_lat' => -6.2088,
+                    'checkin_distance' => 200,
                     'checkin_photo' => 'checkin_photo_' . $userId . '.jpg',
                     'checkout' => '17:00:00',
                     'checkout_long' => 106.8457,
                     'checkout_lat' => -6.2090,
+                    'checkout_distance' => 300,
                     'checkout_photo' => 'checkout_photo_' . $userId . '.jpg',
                     'late_minutes' => rand(0, 30), // Random late minutes (0-30 minutes)
                     'early_leave' => rand(0, 10), // Random early leave (0-10 minutes)
