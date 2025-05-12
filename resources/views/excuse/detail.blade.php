@@ -14,7 +14,7 @@
                             {{ $excuse->reason }}
                         </li>
                         <li class="list-group-item">
-                            {{ $excuse->description }}
+                            {{ $excuse->date }}
                         </li>
                     </ul>
                     <div class="d-flex gap-2">
@@ -36,7 +36,7 @@
                     <img 
                         style="width: 100%; aspect-ratio: 1; object-fit: cover;"
                         class="rounded"
-                        src="https://akcdn.detik.net.id/visual/2025/03/07/jiwoo-hearts2hearts-1741339867633_43.jpeg?w=1200" alt="preview">
+                        src="{{ asset($excuse->proof ) }}"
                 </div>
             </div>
         </div>
