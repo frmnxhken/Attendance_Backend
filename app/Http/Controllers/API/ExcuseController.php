@@ -3,59 +3,23 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Excuse;
-use Illuminate\Database\QueryException;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\API\ExcuseRequest;
+use App\Services\ExcuseService;
 
 class ExcuseController extends Controller
 {
-    public function requestExcuse(Request $request) {
-        $validation = Validator::make($request->all(),[
-            'reason' => 'required',
-            'proof' => 'required|image',
-            'date' => 'required'
-        ]);
+    protected $service;
 
-        if($validation->fails()) {
-            return response()->json([
-                'errors' => $validation->errors()
-            ], 422);
-        }
-
-        try {
-            $filePath = $this->saveProof($request->proof);
-            Excuse::create([
-                'user_id' => Auth::user()->id,
-                'reason' => $request->reason,
-                'proof' => $filePath,
-                'date' => $request->date,
-                'status' => 'pending',
-            ]);
-            
-            return response()->json([
-                'message' => 'Success create request excuse'
-            ]);
-        } catch (QueryException $e) {
-            return response()->json([
-                'message' => $e
-            ]);
-        }
+    public function __construct(ExcuseService $service)
+    {
+        $this->service = $service;
     }
 
-    protected function saveProof($file)
+    public function requestExcuse(ExcuseRequest $request)
     {
-        $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-        $folder = 'uploads/excuse';
-        $destination = public_path($folder);
-
-        if (!file_exists($destination)) {
-            mkdir($destination, 0755, true);
-        }
-
-        $file->move($destination, $filename);
-
-        return $folder . '/' . $filename;
+        $this->service->createExcuse($request->all());
+        return response()->json([
+            'message' => 'Success create request excuse'
+        ]);
     }
 }
