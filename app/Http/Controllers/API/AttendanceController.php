@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\CheckOutRequest;
+use App\Http\Requests\API\ChekInRequest;
 use App\Services\AttendanceService;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 class AttendanceController extends Controller
 {
@@ -18,20 +18,8 @@ class AttendanceController extends Controller
         $this->service = $service;
     }
 
-    public function checkIn(Request $request)
+    public function checkIn(ChekInRequest $request)
     {
-        $validation = Validator::make($request->all(), [
-            'date' => 'required|date',
-            'checkin' => 'required|date_format:H:i',
-            'checkin_long' => 'required',
-            'checkin_lat' => 'required',
-            'checkin_photo' => 'required'
-        ]);
-
-        if ($validation->fails()) {
-            return response()->json(['errors' => $validation->errors()], 422);
-        }
-
         $result = $this->service->checkIn($request->all());
 
         if (isset($result['error'])) {
@@ -45,20 +33,8 @@ class AttendanceController extends Controller
         ]);
     }
 
-    public function checkOut(Request $request)
+    public function checkOut(CheckOutRequest $request)
     {
-        $validation = Validator::make($request->all(), [
-            'date' => 'required|date',
-            'checkout' => 'required|date_format:H:i',
-            'checkout_long' => 'required',
-            'checkout_lat' => 'required',
-            'checkout_photo' => 'required'
-        ]);
-
-        if ($validation->fails()) {
-            return response()->json(['errors' => $validation->errors()], 422);
-        }
-
         $result = $this->service->checkOut($request->all());
 
         if (isset($result['error'])) {
@@ -76,7 +52,8 @@ class AttendanceController extends Controller
         ]);
     }
 
-    public function checkStatus() {
+    public function checkStatus()
+    {
         $user = Auth::user();
         $today = Carbon::today();
         $status = $this->service->attendanceStatus($today);
