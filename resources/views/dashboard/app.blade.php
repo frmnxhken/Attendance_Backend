@@ -20,7 +20,6 @@
                     <iconify-icon icon="solar:asteroid-bold-duotone" class="fs-36 text-info"></iconify-icon>
                     <h3 class="mb-0 fw-bold mt-3 mb-1">{{ $users->count() }}</h3>
                     <p class="text-muted">Total Employees</p>
-                    {{-- <span class="badge fs-12 badge-soft-success"><i class="ti ti-arrow-badge-up"></i> 8.72%</span> --}}
                     <i class='ri-global-line widget-icon'></i>
                 </div> <!-- end card-body -->
             </div> <!-- end card -->
@@ -32,7 +31,6 @@
                     <img src="{{ asset('assets/icons/Excuse.svg') }}" alt="Excuse" class="w-6 h-6">
                     <h3 class="mb-0 fw-bold mt-3 mb-1">{{ $excuses->count() }}</h3>
                     <p class="text-muted">Pending Leave</p>
-                    {{-- <span class="badge fs-12 badge-soft-danger"><i class="ti ti-arrow-badge-down"></i> 3.28%</span> --}}
                     <i class="ri-mail-open-line widget-icon"></i>
                 </div> <!-- end card-body -->
             </div> <!-- end card -->
@@ -44,7 +42,6 @@
                     <img src="{{ asset('assets/icons/present.svg') }}" alt="persent" class="w-6 h-6">
                     <h3 class="mb-0 fw-bold mt-3 mb-1">{{ $totalCheckins }}</h3>
                     <p class="text-muted">Present Today</p>
-                    {{-- <span class="badge fs-12 badge-soft-danger"><i class="ti ti-arrow-badge-down"></i> 3.28%</span> --}}
                     <i class="ri-arrow-right-down-line widget-icon"></i>
                 </div> <!-- end card-body -->
             </div> <!-- end card -->
@@ -56,7 +53,6 @@
                     <img src="{{ asset('assets/icons/Late.svg') }}" alt="Late" class="w-6 h-6">
                     <h3 class="mb-0 fw-bold mt-3 mb-1">{{ $totalLateCheckins }}</h3>
                     <p class="text-muted">Late Days</p>
-                    {{-- <span class="badge fs-12 badge-soft-danger"><i class="ti ti-arrow-badge-down"></i> 5.69%</span> --}}
                     <i class="ri-time-line widget-icon"></i>
                 </div> <!-- end card-body -->
             </div> <!-- end card -->
@@ -68,51 +64,35 @@
                     <img src="{{ asset('assets/icons/Absent.svg') }}" alt="Absent" class="w-6 h-6">
                     <h3 class="mb-0 fw-bold mt-3 mb-1">{{ $totalNotCheckedIn }}</h3>
                     <p class="text-muted">Not Checked in yet</p>
-                    {{-- <span class="badge fs-12 badge-soft-success"><i class="ti ti-arrow-badge-up"></i> 10.58%</span> --}}
                     <i class="ri-survey-line widget-icon"></i>
                 </div> <!-- end card-body -->
             </div> <!-- end card -->
         </div> <!-- end col -->
     </div>
     <!-- end row-->
-
     <div class="row">
-        {{-- <div class="col-xl-7">
+        <div class="col-lg-7">
             <div class="card">
-                <div class="card-body p-0">
-                    <div class="pt-3 px-3">
-                        <div class="float-end">
-                            <a href="javascript:void(0);" class="text-primary">Export
-                                <i class="ri-export-line ms-1"></i>
-                            </a>
-                        </div>
-                        <h5 class="card-title mb-3">Recent Project Summary</h5>
-                    </div>
-                </div> <!-- end card body -->
-            </div> <!-- end card -->
-        </div> <!-- end col --> --}}
-        <div class="col-lg-7 border-start border-5">
-            <div class="p-3">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h4 class="card-title">Attendance Overview+</h4>
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5>Attendance Overview</h5>
                     <div>
-                        <button type="button" class="btn btn-sm btn-outline-light">ALL</button>
-                        <button type="button" class="btn btn-sm btn-outline-light">1M</button>
-                        <button type="button" class="btn btn-sm btn-outline-light">6M</button>
-                        <button type="button" class="btn btn-sm btn-outline-light active">1Y</button>
+                        <button class="btn btn-sm btn-outline-primary filter-btn" data-range="1M">1M</button>
+                        <button class="btn btn-sm btn-outline-primary filter-btn" data-range="6M">6M</button>
+                        <button class="btn btn-sm btn-outline-primary filter-btn" data-range="1Y">1Y</button>
+                        <button class="btn btn-sm btn-outline-primary filter-btn" data-range="ALL">ALL</button>
                     </div>
-                </div> <!-- end card-title-->
-
-                {{-- <div class="alert alert-info mt-3 text text-truncate mb-0" role="alert">
-                    We regret to inform you that our server is currently experiencing technical
-                    difficulties.
-                </div> --}}
-
-                <div dir="ltr">
-                    <div id="dash-performance-chart" class="apex-charts"></div>
+                </div>
+                <div class="card-body">
+                    <div id="attendanceAreaChart" style="height: 350px;"></div>
                 </div>
             </div>
         </div> <!-- end right chart card -->
+        
+        <script>
+            window.attendanceChartData = @json($attendanceChartData);
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+        <script src="{{ asset('/assets') }}/js/chart.js"></script>
         <div class="col-xl-5">
             <div class="card">
                 <div class="card-body ">
@@ -150,7 +130,7 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="4">Belum ada yang check-in hari ini.</td>
+                                            <td colspan="4">No one has checked in today.</td>
                                         </tr>
                                     @endforelse
                                 </tbody> <!-- end tbody -->
@@ -161,57 +141,4 @@
             </div> <!-- end card -->
         </div> <!-- end col -->
     </div> <!-- end row -->
-
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body p-0">
-                    <div class="row g-0">
-                        <div class="col-lg-4">
-                            <div class="p-3">
-                                <h5 class="card-title">Conversions</h5>
-                                <div id="conversions" class="apex-charts mb-2 mt-n2"></div>
-                                <div class="row text-center">
-                                    <div class="col-6">
-                                        <p class="text-muted mb-2">This Week</p>
-                                        <h3 class="text-dark mb-3">23.5k</h3>
-                                    </div> <!-- end col -->
-                                    <div class="col-6">
-                                        <p class="text-muted mb-2">Last Week</p>
-                                        <h3 class="text-dark mb-3">41.05k</h3>
-                                    </div> <!-- end col -->
-                                </div> <!-- end row -->
-                                <div class="text-center">
-                                    <button type="button" class="btn btn-light shadow-none w-100">View
-                                        Details</button>
-                                </div> <!-- end row -->
-                            </div>
-                        </div> <!-- end left chart card -->
-                        <div class="col-lg-8 border-start border-5">
-                            <div class="p-3">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h4 class="card-title">Performance</h4>
-                                    <div>
-                                        <button type="button" class="btn btn-sm btn-outline-light">ALL</button>
-                                        <button type="button" class="btn btn-sm btn-outline-light">1M</button>
-                                        <button type="button" class="btn btn-sm btn-outline-light">6M</button>
-                                        <button type="button" class="btn btn-sm btn-outline-light active">1Y</button>
-                                    </div>
-                                </div> <!-- end card-title-->
-
-                                <div class="alert alert-info mt-3 text text-truncate mb-0" role="alert">
-                                    We regret to inform you that our server is currently experiencing technical
-                                    difficulties.
-                                </div>
-
-                                <div dir="ltr">
-                                    <div id="dash-performance-chart" class="apex-charts"></div>
-                                </div>
-                            </div>
-                        </div> <!-- end right chart card -->
-                    </div> <!-- end chart card -->
-                </div> <!-- end card body -->
-            </div> <!-- end card -->
-        </div> <!-- end col-->
-    </div> <!-- end row-->
 </x-layout>
