@@ -36,42 +36,31 @@ class DashboardController extends Controller
         $notCheckedInUsers = User::whereNotIn('id', $checkedInUserIds)->get();
         $totalNotCheckedIn = $notCheckedInUsers->count();
 
-        $range = $request->get('range', '1Y'); // default 1Y
-        $end = Carbon::today();
-        switch ($range) {
-            case '6M':
-                $start = $end->copy()->subMonths(6)->startOfMonth();
-                break;
-            case '1M':
-                $start = $end->copy()->subMonth()->startOfMonth();
-                break;
-            case 'ALL':
-                $start = Attendance::min('date') ?? Carbon::today()->subYear();
-                break;
-            case '1Y':
-            default:
-                $start = $end->copy()->subYear()->startOfMonth();
-                break;
+        $attendances = Attendance::whereNotNull('checkin')
+            ->orderBy('date', 'asc')
+            ->get()
+            ->groupBy(function ($item) {
+                return \Carbon\Carbon::parse($item->date)->format('Y-m'); // gunakan Carbon::parse
+            });
+        // dd($attendances);
+        // dd($attendances->toArray());
+
+        $attendanceChartData = [];
+
+        foreach ($attendances as $month => $items) {
+            $total = $items->count();
+            $late = $items->filter(function ($item) {
+                return $item->checkin > '08:00:00'; // Karena ini string TIME, banding langsung
+            })->count();
+                // echo $late;
+            $attendanceChartData[] = [
+                'month' => $month,
+                'attendance' => $total,
+                'late' => $late
+            ];
         }
-
-        $period = CarbonPeriod::create($start, '1 month', $end);
-        $labels = [];
-        $attendances = [];
-        $lates = [];
-
-        foreach ($period as $date) {
-            $month = $date->format('Y-m');
-            $labels[] = $date->format('M Y');
-
-            $monthlyData = Attendance::whereBetween('date', [
-                $date->copy()->startOfMonth(),
-                $date->copy()->endOfMonth()
-            ]);
-
-            $attendances[] = $monthlyData->count();
-            $lates[] = $monthlyData->where('checkin', '>', $date->copy()->setTime(8, 0, 0))->count();
-        }
-
+        
+        // dd($attendanceChartData);
         return view('dashboard.app', compact(
             'users',
             'excuses',
@@ -80,12 +69,8 @@ class DashboardController extends Controller
             'totalLateCheckins',
             'totalCheckins',
             'totalNotCheckedIn',
-            'notCheckedInUsers'
-        ))->with([
-            'chartLabels' => $labels,
-            'chartAttendances' => $attendances,
-            'chartLates' => $lates,
-            'selectedRange' => $range,
-        ]);
+            'notCheckedInUsers',
+            'attendanceChartData',
+        ));
     }
 }

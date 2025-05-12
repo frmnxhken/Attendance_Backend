@@ -1,61 +1,76 @@
-function renderAttendanceChart(data) {
-    const options = {
-        series: [
-            { name: "Attendances", type: "area", data: data.attendances },
-            { name: "Late", type: "area", data: data.lates },
-        ],
-        chart: {
-            height: 313,
-            type: "line",
-            toolbar: { show: false },
-        },
-        stroke: { curve: "smooth", width: 2 },
-        fill: {
-            type: "gradient",
-            gradient: {
-                shadeIntensity: 1,
-                opacityFrom: 0.4,
-                opacityTo: 0.1,
-                stops: [0, 90, 100],
-            },
-        },
-        xaxis: {
-            categories: data.labels,
-            axisTicks: { show: false },
-            axisBorder: { show: false },
-        },
-        colors: ["#405568", "#1bb394"],
-        tooltip: {
-            shared: true,
-            y: [
-                {
-                    formatter: (val) => val + " hadir",
-                },
-                {
-                    formatter: (val) => val + " terlambat",
-                },
-            ],
-        },
-        legend: {
-            show: true,
-            position: "top",
-        },
+document.addEventListener('DOMContentLoaded', function () {
+    const rawData = window.attendanceChartData;
+
+    const parseData = (range) => {
+        const now = new Date();
+        let cutoff;
+
+        if (range === '1M') cutoff = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+        else if (range === '6M') cutoff = new Date(now.getFullYear(), now.getMonth() - 6, 1);
+        else if (range === '1Y') cutoff = new Date(now.getFullYear() - 1, now.getMonth(), 1);
+        else cutoff = new Date(0); // ALL
+
+        return rawData
+            .filter(item => {
+                const [year, month] = item.month.split('-');
+                const itemDate = new Date(year, month - 1, 1);
+                return itemDate >= cutoff;
+            })
+            .map(item => ({
+                ...item,
+                month: new Date(item.month + '-01').toLocaleDateString('id-ID', { year: 'numeric', month: 'short' })
+            }));
     };
 
-    const chart = new ApexCharts(
-        document.querySelector("#dash-performance-chart"),
-        options
-    );
-    chart.render();
-}
+    const chartEl = document.querySelector("#attendanceAreaChart");
+    let chart;
 
-renderAttendanceChart(attendanceData);
+    function renderChart(data) {
+        const options = {
+            chart: {
+                type: 'area',
+                height: 350,
+                toolbar: { show: false }
+            },
+            series: [
+                {
+                    name: 'Kehadiran',
+                    data: data.map(item => item.attendance)
+                },
+                {
+                    name: 'Terlambat',
+                    data: data.map(item => item.late)
+                }
+            ],
+            xaxis: {
+                categories: data.map(item => item.month),
+                title: { text: 'Bulan' }
+            },
+            yaxis: {
+                title: { text: 'Jumlah' }
+            },
+            colors: ['#28a745', '#dc3545'],
+            dataLabels: { enabled: false },
+            stroke: { curve: 'smooth' }
+        };
 
-// Range button handler
-document.querySelectorAll("#chart-filter-buttons button").forEach((btn) => {
-    btn.addEventListener("click", function () {
-        const range = this.dataset.range;
-        window.location.href = `/?range=${range}`;
+        if (!chart) {
+            chart = new ApexCharts(chartEl, options);
+            chart.render();
+        } else {
+            chart.updateOptions(options);
+        }
+    }
+
+    // Inisialisasi pertama
+    renderChart(parseData('ALL'));
+
+    // Event tombol filter
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const range = this.dataset.range;
+            const filteredData = parseData(range);
+            renderChart(filteredData);
+        });
     });
 });
-

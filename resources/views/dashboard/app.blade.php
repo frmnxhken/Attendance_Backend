@@ -70,35 +70,29 @@
         </div> <!-- end col -->
     </div>
     <!-- end row-->
-
     <div class="row">
-        <div class="col-lg-7 border-start border-5">
-            <div class="p-3">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h4 class="card-title">Attendance Overview</h4>
-                    <div id="chart-filter-buttons">
-                        <button type="button" class="btn btn-sm btn-outline-light active" data-range="1Y">1Y</button>
-                        <button type="button" class="btn btn-sm btn-outline-light" data-range="6M">6M</button>
-                        <button type="button" class="btn btn-sm btn-outline-light" data-range="1M">1M</button>
-                        <button type="button" class="btn btn-sm btn-outline-light" data-range="ALL">ALL</button>
+        <div class="col-lg-7">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5>Attendance Overview</h5>
+                    <div>
+                        <button class="btn btn-sm btn-outline-primary filter-btn" data-range="1M">1M</button>
+                        <button class="btn btn-sm btn-outline-primary filter-btn" data-range="6M">6M</button>
+                        <button class="btn btn-sm btn-outline-primary filter-btn" data-range="1Y">1Y</button>
+                        <button class="btn btn-sm btn-outline-primary filter-btn" data-range="ALL">ALL</button>
                     </div>
-                </div> <!-- end card-title-->
-
-     
-                <div dir="ltr">
-                        <div id="dash-performance-chart" class="apex-charts">
-                            
-                        </div>
-                        <script>
-                            const attendanceData = {
-                                labels: @json($chartLabels),
-                                attendances: @json($chartAttendances),
-                                lates: @json($chartLates),
-                            };
-                        </script>
+                </div>
+                <div class="card-body">
+                    <div id="attendanceAreaChart" style="height: 350px;"></div>
                 </div>
             </div>
         </div> <!-- end right chart card -->
+        
+        <script>
+            window.attendanceChartData = @json($attendanceChartData);
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+        <script src="{{ asset('/assets') }}/js/chart.js"></script>
         <div class="col-xl-5">
             <div class="card">
                 <div class="card-body ">
