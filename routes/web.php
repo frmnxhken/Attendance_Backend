@@ -11,17 +11,27 @@ use Illuminate\Support\Facades\Route;
 Route::get('/login', [AdminController::class, 'login'])->name('login');
 Route::post('/login', [AdminController::class, 'authentication']);
 
-Route::middleware(['auth:admin'])->group(function() {
+Route::middleware(['auth:admin'])->group(function () {
     Route::get('/', [DashboardController::class, 'index']);
-    Route::post('/logout', [AdminController::class, 'deauthentication']);
     Route::resource('/employee', UserController::class);
     Route::resource('/office', OfficeController::class);
-    Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance');
-    Route::get('/attendance/export/{range}', [AttendanceController::class, 'exportExcel']);
-    Route::get('/excuse', [ExcuseController::class, 'index']);
-    Route::get('/excuse/detail/{id}', [ExcuseController::class, 'show']);
-    Route::post('/excuse/detail/{id}/approve', [ExcuseController::class, 'approve'])->name('approve');
-    Route::post('/excuse/detail/{id}/cancel', [ExcuseController::class, 'cancel'])->name('cancel');
-    Route::get('/editpassword', [AdminController::class, 'editPassword']);
-    Route::put('/editpassword', [AdminController::class, 'updatePassword']);
+
+    Route::prefix('auth')->group(function () {
+        Route::post('/logout', [AdminController::class, 'deauthentication']);
+        Route::get('/edit-password', [AdminController::class, 'editPassword']);
+        Route::put('/edit-password', [AdminController::class, 'updatePassword']);
+    });
+
+
+    Route::prefix('attendance')->group(function () {
+        Route::get('/', [AttendanceController::class, 'index'])->name('attendance');
+        Route::get('/export/{range}', [AttendanceController::class, 'exportExcel']);
+    });
+
+    Route::prefix('excuse')->group(function () {
+        Route::get('/', [ExcuseController::class, 'index']);
+        Route::get('/detail/{id}', [ExcuseController::class, 'show']);
+        Route::post('/detail/{id}/approve', [ExcuseController::class, 'approve'])->name('approve');
+        Route::post('/detail/{id}/cancel', [ExcuseController::class, 'cancel'])->name('cancel');
+    });
 });
