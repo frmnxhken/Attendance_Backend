@@ -1,13 +1,16 @@
 <?php
+
 namespace App\Exports;
 
 use App\Models\Attendance;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Events\AfterSheet;
 use Carbon\Carbon;
 
-class AttendanceExport implements FromCollection, WithHeadings, WithMapping
+class AttendanceExport implements FromCollection, WithHeadings, WithMapping, WithEvents
 {
     protected $range;
 
@@ -28,6 +31,7 @@ class AttendanceExport implements FromCollection, WithHeadings, WithMapping
                 '3-month' => $end->copy()->subMonths(3),
                 '6-month' => $end->copy()->subMonths(6),
                 '1-year' => $end->copy()->subYear(),
+                default => $end->copy()->subWeek(),
             };
             $query->whereBetween('date', [$start->format('Y-m-d'), $end->format('Y-m-d')]);
         }
@@ -38,45 +42,69 @@ class AttendanceExport implements FromCollection, WithHeadings, WithMapping
     public function headings(): array
     {
         return [
-            'Nama Karyawan',
+            'Nama',
             'Email',
             'Tanggal',
-            'Waktu Check-In',
-            'Waktu Check-Out',
-            'Status Kehadiran',
-            'Keterlambatan (Menit)',
-            'Lembur (Menit)',
-            'Lokasi Check-In (Lat)',
-            'Lokasi Check-In (Long)',
-            'Lokasi Check-Out (Lat)',
-            'Lokasi Check-Out (Long)',
+            'Check-In',
+            'Jarak Check-In (m)',
+            'Check-Out',
+            'Jarak Check-Out (m)',
+            'Status',
+            'Keterlambatan (menit)',
+            'Lembur (menit)',
+            'Check-In (lat)',
+            'Check-In (long)',
+            'Check-Out (lat)',
+            'Check-Out (long)',
         ];
     }
 
     public function map($attendance): array
     {
-        $checkinTime = Carbon::parse($attendance->checkin);
-        $checkoutTime = Carbon::parse($attendance->checkout);
-        $totalWorkedMinutes = $checkinTime->diffInMinutes($checkoutTime);
-        $lateMinutes = $attendance->late_minutes ?? 0;
-        $extraMinutes = $attendance->extra_minutes ?? 0;
-        
-        // Check status, if null, consider 'Absent'
-        $status = $attendance->status ?? 'Absent';
-        
         return [
             $attendance->user->name,
             $attendance->user->email,
             $attendance->date,
             $attendance->checkin,
+            $attendance->checkin_distance,
             $attendance->checkout,
-            $status,
-            $lateMinutes,  
-            $extraMinutes,
+            $attendance->checkout_distance,
+            $attendance->status,
+            $attendance->late_minutes ?? 0,
+            $attendance->extra_minutes ?? 0,
             $attendance->checkin_lat,
             $attendance->checkin_long,
             $attendance->checkout_lat,
             $attendance->checkout_long,
+        ];
+    }
+
+    public function registerEvents(): array
+    {
+        return [
+            AfterSheet::class => function (AfterSheet $event) {
+                $sheet = $event->sheet->getDelegate();
+                $columnCount = count($this->headings());
+                $highestRow = $sheet->getHighestRow();
+                $columnRange = range('A', chr(64 + $columnCount)); // Misal A to M
+
+                foreach ($columnRange as $col) {
+                    $sheet->getColumnDimension($col)->setAutoSize(true);
+                }
+
+                $sheet->getStyle("A1:" . chr(64 + $columnCount) . "1")
+                      ->getFont()->setBold(true);
+
+                $sheet->getStyle("A1:" . chr(64 + $columnCount) . $highestRow)
+                      ->applyFromArray([
+                          'borders' => [
+                              'allBorders' => [
+                                  'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                                  'color' => ['argb' => '000000'],
+                              ],
+                          ],
+                      ]);
+            },
         ];
     }
 }

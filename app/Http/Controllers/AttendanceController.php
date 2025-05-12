@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\AttendanceExport;
+use App\Exports\AttendanceCombinedExport;
 use App\Models\Attendance;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -49,6 +49,6 @@ class AttendanceController extends Controller
 
     public function exportExcel($range)
     {
-        return Excel::download(new AttendanceExport($range), 'attendance-' . $range . '.xlsx');
+        return Excel::download(new AttendanceCombinedExport($range), 'attendance-' . $range . '.xlsx');
     }
 }
