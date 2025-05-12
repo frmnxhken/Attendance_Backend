@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AttendanceExport;
 use App\Models\Attendance;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AttendanceController extends Controller
 {
@@ -43,5 +45,10 @@ class AttendanceController extends Controller
             'currentPage' => $currentPage,
             'totalPages' => $totalPages,
         ]);
+    }
+
+    public function exportExcel($range)
+    {
+        return Excel::download(new AttendanceExport($range), 'attendance-' . $range . '.xlsx');
     }
 }

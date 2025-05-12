@@ -14,21 +14,32 @@
         <div class="row mb-4">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center gap-2">
-                    <div>
-                        <label for="start_date">Start Date:</label>
+                    <div class="d-flex align-items-center gap-2">
+                        <label style="text-wrap: nowrap;" for="start_date">Start Date:</label>
                         <input class="form-control" type="date" name="start_date" value="{{ old('start_date', $startDate) }}">
                     </div>
-                    <div>
-                        <label for="end_date">End Date:</label>
+                    <div class="d-flex align-items-center gap-2">
+                        <label style="text-wrap: nowrap;" for="end_date">End Date:</label>
                         <input class="form-control" type="date" name="end_date" value="{{ old('end_date', $endDate) }}">
                     </div>
                     <div>
-                        <button class="btn btn-primary mt-3" type="submit">Filter</button>
+                        <button class="btn btn-primary" type="submit">Filter</button>
                     </div>
                 </div>
                 <div class="d-flex gap-2">
-                    <a href="" class="btn btn-success">Excel</a>
-                    <a href="" class="btn btn-danger">PDF</a>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            Excel
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ url('/attendance/export/1-week') }}">1 Week</a></li>
+                            <li><a class="dropdown-item" href="{{ url('/attendance/export/1-month') }}">1 Month</a></li>
+                            <li><a class="dropdown-item" href="{{ url('/attendance/export/3-month') }}">3 Month</a></li>
+                            <li><a class="dropdown-item" href="{{ url('/attendance/export/6-month') }}">6 Month</a></li>
+                            <li><a class="dropdown-item" href="{{ url('/attendance/export/1-year') }}">1 Year</a></li>
+                            <li><a class="dropdown-item" href="{{ url('/attendance/export/all') }}">All</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -157,13 +168,13 @@
 
                 @for ($page = 1; $page <= $totalPages; $page++)
                     <li class="page-item {{ $currentPage == $page ? 'active' : '' }}">
-                        <a class="page-link" href="{{ request()->fullUrlWithQuery(['page' => $page]) }}">{{ $page }}</a>
+                    <a class="page-link" href="{{ request()->fullUrlWithQuery(['page' => $page]) }}">{{ $page }}</a>
                     </li>
-                @endfor
+                    @endfor
 
-                <li class="page-item {{ $currentPage == $totalPages ? 'disabled' : '' }}">
-                    <a class="page-link" href="{{ request()->fullUrlWithQuery(['page' => $currentPage + 1]) }}">Next</a>
-                </li>
+                    <li class="page-item {{ $currentPage == $totalPages ? 'disabled' : '' }}">
+                        <a class="page-link" href="{{ request()->fullUrlWithQuery(['page' => $currentPage + 1]) }}">Next</a>
+                    </li>
 
             </ul>
         </nav>

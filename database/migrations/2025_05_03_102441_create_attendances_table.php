@@ -19,10 +19,12 @@ return new class extends Migration
             $table->double('checkin_long')->nullable();
             $table->double('checkin_lat')->nullable();
             $table->text('checkin_photo')->nullable();
+            $table->text('checkin_distance')->nullable();
             $table->time('checkout')->nullable();
             $table->double('checkout_long')->nullable();
             $table->double('checkout_lat')->nullable();
             $table->text('checkout_photo')->nullable();
+            $table->double('checkout_distance')->nullable();
             $table->integer('late_minutes')->nullable();
             $table->integer('early_leave')->nullable();
             $table->integer('extra_minutes')->nullable();

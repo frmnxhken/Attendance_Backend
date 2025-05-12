@@ -57,6 +57,7 @@ class AttendanceService
             'checkin_photo' => $photoPath,
             'checkin_lat' => $data['checkin_lat'],
             'checkin_long' => $data['checkin_long'],
+            'checkin_distance' => $distance,
             'status' => 'present',
         ]);
 
@@ -106,7 +107,8 @@ class AttendanceService
             'extra_minutes' => $attendance->extra_minutes + $extraMinutes,
             'checkout_photo' => $photoPath,
             'checkout_lat' => $data['checkout_lat'],
-            'checkout_long' => $data['checkout_long']
+            'checkout_long' => $data['checkout_long'],
+            'checkout_distance' => $distance
         ]);
 
         $balance = WorkBalance::firstOrCreate(['user_id' => $user->id], ['total_minutes' => 0]);
