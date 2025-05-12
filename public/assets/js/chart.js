@@ -34,20 +34,20 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             series: [
                 {
-                    name: 'Kehadiran',
+                    name: 'Present',
                     data: data.map(item => item.attendance)
                 },
                 {
-                    name: 'Terlambat',
+                    name: 'Late',
                     data: data.map(item => item.late)
                 }
             ],
             xaxis: {
                 categories: data.map(item => item.month),
-                title: { text: 'Bulan' }
+                title: { text: 'Month' }
             },
             yaxis: {
-                title: { text: 'Jumlah' }
+                title: { text: 'Present' }
             },
             colors: ['#28a745', '#dc3545'],
             dataLabels: { enabled: false },
