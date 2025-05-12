@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\ExcuseRequest;
-use App\Services\ExcuseService;
+use App\Services\API\ExcuseService;
 
 class ExcuseController extends Controller
 {

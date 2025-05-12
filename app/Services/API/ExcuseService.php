@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\API;
 
 use App\Models\Excuse;
 use Illuminate\Support\Facades\Auth;

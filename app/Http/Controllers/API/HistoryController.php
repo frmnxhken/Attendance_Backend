@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AttendanceResource;
-use App\Services\HistoryService;
+use App\Services\API\HistoryService;
 
 class HistoryController extends Controller
 {

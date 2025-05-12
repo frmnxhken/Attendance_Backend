@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\CheckOutRequest;
 use App\Http\Requests\API\ChekInRequest;
-use App\Services\AttendanceService;
+use App\Services\API\AttendanceService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
