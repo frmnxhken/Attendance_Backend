@@ -37,7 +37,7 @@ class UserController extends Controller
     public function show(string $id)
     {
         $attendance = Attendance::where('user_id', $id)->get();
-        $user = User::findOrFail($id)->first();
+        $user = User::where('id', $id)->first();
         $statistic = [
             'present' => $attendance->where('status', 'present')->count(),
             'late' => $attendance->where('status', 'present')->where('late_minutes', '>', 0)->count(),
