@@ -19,7 +19,7 @@ Route::get('/helloworld', function () {
 
 Route::post('/user/reset-password', [UserController::class, 'resetPassword']);
 Route::post('/auth', [UserController::class, "authentication"]);
-Route::middleware(['auth:api'])->group(function () {
+Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/profile', [UserController::class, 'getProfile']);
 
     Route::post('/logout', [UserController::class, 'deauthentication']);
