@@ -10,6 +10,30 @@
             </div>
         </div>
     </div>
+    <form method="GET" action="{{ route('attendance') }}">
+        <div class="row mb-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center gap-2">
+                    <div>
+                        <label for="start_date">Start Date:</label>
+                        <input class="form-control" type="date" name="start_date" value="{{ old('start_date', $startDate) }}">
+                    </div>
+                    <div>
+                        <label for="end_date">End Date:</label>
+                        <input class="form-control" type="date" name="end_date" value="{{ old('end_date', $endDate) }}">
+                    </div>
+                    <div>
+                        <button class="btn btn-primary mt-3" type="submit">Filter</button>
+                    </div>
+                </div>
+                <div class="d-flex gap-2">
+                    <a href="" class="btn btn-success">Excel</a>
+                    <a href="" class="btn btn-danger">PDF</a>
+                </div>
+            </div>
+        </div>
+    </form>
+
     <div class="row">
         @foreach ($attendances as $date => $records)
         <div class="card mb-4">

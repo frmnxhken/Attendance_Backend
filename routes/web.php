@@ -16,7 +16,7 @@ Route::middleware(['auth:admin'])->group(function() {
     Route::post('/logout', [AdminController::class, 'deauthentication']);
     Route::resource('/employee', UserController::class);
     Route::resource('/office', OfficeController::class);
-    Route::get('/attendance', [AttendanceController::class, 'index']);
+    Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance');
     Route::get('/excuse', [ExcuseController::class, 'index']);
     Route::get('/excuse/detail/{id}', [ExcuseController::class, 'show']);
     Route::post('/excuse/detail/{id}/approve', [ExcuseController::class, 'approve'])->name('approve');
