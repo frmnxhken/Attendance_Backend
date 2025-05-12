@@ -12,9 +12,10 @@ class AttendanceController extends Controller
     {
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
+        $perPage = 5;
+        $currentPage = (int) $request->input('page', 1);
 
-        $attendancesQuery = Attendance::with('user')
-            ->orderBy('date', 'desc');
+        $attendancesQuery = Attendance::with('user')->orderBy('date', 'DESC');
 
         if ($startDate && $endDate) {
             $attendancesQuery->whereBetween('date', [
@@ -23,11 +24,24 @@ class AttendanceController extends Controller
             ]);
         }
 
-        $attendances = $attendancesQuery->get()
-            ->groupBy(function ($attendance) {
-                return Carbon::parse($attendance->date)->format('Y-m-d');
-            });
+        $groupedAttendances = $attendancesQuery->get()->groupBy(function ($attendance) {
+            return Carbon::parse($attendance->date)->toDateString();
+        });
 
-        return view('attendance.app', compact('attendances', 'startDate', 'endDate'));
+        $allDates = array_keys($groupedAttendances->toArray());
+        $totalDates = count($allDates);
+        $totalPages = ceil($totalDates / $perPage);
+
+        $pagedDates = array_slice($allDates, ($currentPage - 1) * $perPage, $perPage);
+
+        $pagedAttendances = collect($groupedAttendances)->only($pagedDates);
+
+        return view('attendance.app', [
+            'attendances' => $pagedAttendances,
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+            'currentPage' => $currentPage,
+            'totalPages' => $totalPages,
+        ]);
     }
 }

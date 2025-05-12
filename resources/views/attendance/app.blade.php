@@ -53,10 +53,8 @@
                             <div class="d-flex align-items-center gap-3">
                                 <a href="#" data-bs-toggle="modal"
                                     data-bs-target="#checkinModal{{ $attendance->id }}">
-                                    <img src="{{ is_null($attendance->checkin_photo) ? '' : asset($attendance->checkin_photo) }}"
-                                        alt="image" class="img-fluid avatar-md rounded" />
+                                    Checkin: {{ $attendance->checkin ?? '--:--' }}
                                 </a>
-                                Checkin: {{ $attendance->checkin ?? '--:--' }}
                             </div>
                         </td>
 
@@ -68,10 +66,8 @@
                             <div class="d-flex align-items-center gap-3">
                                 <a href="#" data-bs-toggle="modal"
                                     data-bs-target="#checkoutModal{{ $attendance->id }}">
-                                    <img src="{{ is_null($attendance->checkout_photo) ? '' : asset($attendance->checkout_photo) }}"
-                                        alt="image" class="img-fluid avatar-md rounded" />
+                                    Checkout: {{ $attendance->checkout }}
                                 </a>
-                                Checkout: {{ $attendance->checkout }}
                             </div>
                             @endif
                         </td>
@@ -151,5 +147,26 @@
             </div>
         </div>
         @endforeach
+
+        <nav>
+            <ul class="pagination justify-content-center">
+
+                <li class="page-item {{ $currentPage == 1 ? 'disabled' : '' }}">
+                    <a class="page-link" href="{{ request()->fullUrlWithQuery(['page' => $currentPage - 1]) }}" tabindex="-1">Previous</a>
+                </li>
+
+                @for ($page = 1; $page <= $totalPages; $page++)
+                    <li class="page-item {{ $currentPage == $page ? 'active' : '' }}">
+                        <a class="page-link" href="{{ request()->fullUrlWithQuery(['page' => $page]) }}">{{ $page }}</a>
+                    </li>
+                @endfor
+
+                <li class="page-item {{ $currentPage == $totalPages ? 'disabled' : '' }}">
+                    <a class="page-link" href="{{ request()->fullUrlWithQuery(['page' => $currentPage + 1]) }}">Next</a>
+                </li>
+
+            </ul>
+        </nav>
+
     </div>
 </x-layout>

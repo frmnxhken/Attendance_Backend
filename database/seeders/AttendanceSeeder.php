@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Attendance;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class AttendanceSeeder extends Seeder
 {
@@ -14,182 +15,35 @@ class AttendanceSeeder extends Seeder
      */
     public function run(): void
     {
-        $now = Carbon::now();
+        $users = DB::table('users')->pluck('id');
+        $dates = [];
+        $startDate = Carbon::createFromDate(2025, 5, 1); // Mulai dari 1 Mei 2025
+        $endDate = Carbon::createFromDate(2025, 6, 30); // Sampai 30 Juni 2025
 
-        $data = [
-            [
-                'user_id' => 1,
-                'date' => '2025-05-01',
-                'checkin' => '08:05:00',
-                'checkin_long' => 112.0897,
-                'checkin_lat' => -7.60017,
-                'checkin_photo' => 'uploads/checkout/1746855151_681ee4ef8be43.png',
-                'checkout' => '16:00:00',
-                'checkout_long' => 112.0897,
-                'checkout_lat' => -7.60017,
-                'checkout_photo' => 'uploads/checkout/1746855151_681ee4ef8be43.png',
-                'late_minutes' => 5,
-                'early_leave' => 0,
-                'status' => 'present',
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
-                'user_id' => 2,
-                'date' => '2025-05-01',
-                'checkin' => '08:00:00',
-                'checkin_long' => 112.0897,
-                'checkin_lat' => -7.60017,
-                'checkin_photo' => 'uploads/checkout/1746855151_681ee4ef8be43.png',
-                'checkout' => '15:50:00',
-                'checkout_long' => 112.0897,
-                'checkout_lat' => -7.60017,
-                'checkout_photo' => 'uploads/checkout/1746855151_681ee4ef8be43.png',
-                'late_minutes' => 0,
-                'early_leave' => 10,
-                'status' => 'present',
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
-                'user_id' => 3,
-                'date' => '2025-05-01',
-                'checkin' => '08:30:00',
-                'checkin_long' => 112.0897,
-                'checkin_lat' => -7.60017,
-                'checkin_photo' => 'uploads/checkout/1746855151_681ee4ef8be43.png',
-                'checkout' => '16:10:00',
-                'checkout_long' => 112.0897,
-                'checkout_lat' => -7.60017,
-                'checkout_photo' => 'uploads/checkout/1746855151_681ee4ef8be43.png',
-                'late_minutes' => 30,
-                'early_leave' => 0,
-                'status' => 'present',
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
-                'user_id' => 4,
-                'date' => '2025-05-01',
-                'checkin' => '09:00:00',
-                'checkin_long' => 112.0897,
-                'checkin_lat' => -7.60017,
-                'checkin_photo' => 'uploads/checkout/1746855151_681ee4ef8be43.png',
-                'checkout' => '15:00:00',
-                'checkout_long' => 112.0897,
-                'checkout_lat' => -7.60017,
-                'checkout_photo' => 'uploads/checkout/1746855151_681ee4ef8be43.png',
-                'late_minutes' => 60,
-                'early_leave' => 60,
-                'status' => 'present',
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
-                'user_id' => 5,
-                'date' => '2025-05-01',
-                'checkin' => '07:59:00',
-                'checkin_long' => 112.0897,
-                'checkin_lat' => -7.60017,
-                'checkin_photo' => 'uploads/checkout/1746855151_681ee4ef8be43.png',
-                'checkout' => '16:01:00',
-                'checkout_long' => 112.0897,
-                'checkout_lat' => -7.60017,
-                'checkout_photo' => 'uploads/checkout/1746855151_681ee4ef8be43.png',
-                'late_minutes' => 0,
-                'early_leave' => 0,
-                'status' => 'present',
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
-                'user_id' => 1,
-                'date' => '2025-05-02',
-                'checkin' => '08:10:00',
-                'checkin_long' => 112.0897,
-                'checkin_lat' => -7.60017,
-                'checkin_photo' => 'uploads/checkout/1746855151_681ee4ef8be43.png',
-                'checkout' => '15:55:00',
-                'checkout_long' => 112.0897,
-                'checkout_lat' => -7.60017,
-                'checkout_photo' => 'uploads/checkout/1746855151_681ee4ef8be43.png',
-                'late_minutes' => 10,
-                'early_leave' => 5,
-                'status' => 'present',
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
-                'user_id' => 2,
-                'date' => '2025-05-02',
-                'checkin' => '08:00:00',
-                'checkin_long' => 112.0897,
-                'checkin_lat' => -7.60017,
-                'checkin_photo' => 'uploads/checkout/1746855151_681ee4ef8be43.png',
-                'checkout' => '16:00:00',
-                'checkout_long' => 112.0897,
-                'checkout_lat' => -7.60017,
-                'checkout_photo' => 'uploads/checkout/1746855151_681ee4ef8be43.png',
-                'late_minutes' => 0,
-                'early_leave' => 0,
-                'status' => 'present',
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
-                'user_id' => 3,
-                'date' => '2025-05-02',
-                'checkin' => '08:45:00',
-                'checkin_long' => 112.0897,
-                'checkin_lat' => -7.60017,
-                'checkin_photo' => 'uploads/checkout/1746855151_681ee4ef8be43.png',
-                'checkout' => '15:40:00',
-                'checkout_long' => 112.0897,
-                'checkout_lat' => -7.60017,
-                'checkout_photo' => 'uploads/checkout/1746855151_681ee4ef8be43.png',
-                'late_minutes' => 45,
-                'early_leave' => 20,
-                'status' => 'present',
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
-                'user_id' => 4,
-                'date' => '2025-05-02',
-                'checkin' => '08:15:00',
-                'checkin_long' => 112.0897,
-                'checkin_lat' => -7.60017,
-                'checkin_photo' => 'uploads/checkout/1746855151_681ee4ef8be43.png',
-                'checkout' => '15:30:00',
-                'checkout_long' => 112.0897,
-                'checkout_lat' => -7.60017,
-                'checkout_photo' => 'uploads/checkout/1746855151_681ee4ef8be43.png',
-                'late_minutes' => 15,
-                'early_leave' => 30,
-                'status' => 'present',
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
-                'user_id' => 5,
-                'date' => '2025-05-02',
-                'checkin' => '08:20:00',
-                'checkin_long' => 112.0897,
-                'checkin_lat' => -7.60017,
-                'checkin_photo' => 'uploads/checkout/1746855151_681ee4ef8be43.png',
-                'checkout' => '15:45:00',
-                'checkout_long' => 112.0897,
-                'checkout_lat' => -7.60017,
-                'checkout_photo' => 'uploads/checkout/1746855151_681ee4ef8be43.png',
-                'late_minutes' => 20,
-                'early_leave' => 15,
-                'status' => 'present',
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-        ];
-        foreach ($data as $attendance) {
-            Attendance::create($attendance);
+        while ($startDate <= $endDate) {
+            $dates[] = $startDate->format('Y-m-d');
+            $startDate->addDay(); 
+        }
+
+        foreach ($users as $userId) {
+            foreach ($dates as $date) {
+                DB::table('attendances')->insert([
+                    'user_id' => $userId,
+                    'date' => $date,
+                    'checkin' => '08:00:00',
+                    'checkin_long' => 106.8456,
+                    'checkin_lat' => -6.2088,
+                    'checkin_photo' => 'checkin_photo_' . $userId . '.jpg',
+                    'checkout' => '17:00:00',
+                    'checkout_long' => 106.8457,
+                    'checkout_lat' => -6.2090,
+                    'checkout_photo' => 'checkout_photo_' . $userId . '.jpg',
+                    'late_minutes' => rand(0, 30), // Random late minutes (0-30 minutes)
+                    'early_leave' => rand(0, 10), // Random early leave (0-10 minutes)
+                    'extra_minutes' => rand(0, 120), // Random extra minutes (0-120 minutes)
+                    'status' => 'present', // Change this based on status if needed
+                ]);
+            }
         }
     }
 }

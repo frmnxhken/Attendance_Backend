@@ -28,9 +28,8 @@ class AttendanceController extends Controller
             'checkin_photo' => 'required'
         ]);
 
-
         if ($validation->fails()) {
-            return response()->json(['message' => $validation->errors()], 422);
+            return response()->json(['errors' => $validation->errors()], 422);
         }
 
         $result = $this->service->checkIn($request->all());
@@ -42,8 +41,7 @@ class AttendanceController extends Controller
         return response()->json([
             'message' => 'Check-in recorded',
             'data' => $result['attendance'],
-            'total_minutes' => $result['balance']->total_minutes,
-            'distance' => $result['distance']
+            'total_minutes' => $result['balance']->total_minutes
         ]);
     }
 
@@ -58,7 +56,7 @@ class AttendanceController extends Controller
         ]);
 
         if ($validation->fails()) {
-            return response()->json(['message' => $validation->errors()], 422);
+            return response()->json(['errors' => $validation->errors()], 422);
         }
 
         $result = $this->service->checkOut($request->all());
