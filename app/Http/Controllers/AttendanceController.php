@@ -7,6 +7,8 @@ use App\Models\Attendance;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\File;
+
 
 class AttendanceController extends Controller
 {
@@ -45,6 +47,20 @@ class AttendanceController extends Controller
             'currentPage' => $currentPage,
             'totalPages' => $totalPages,
         ]);
+    }
+
+    public function resetPhoto(Request $request) {
+        Attendance::query()->update(values: ['checkin_photo' => null, 'checkout_photo' => null]);
+        File::cleanDirectory(public_path('uploads/checkin'));
+        File::cleanDirectory(public_path('uploads/checkout'));
+        return redirect()->back();
+    }
+
+    public function resetAll(Request $request) {
+        Attendance::truncate();
+        File::cleanDirectory(public_path('uploads/checkin'));
+        File::cleanDirectory(public_path('uploads/checkout'));
+        return redirect()->back();
     }
 
     public function exportExcel($range)

@@ -10,9 +10,9 @@
             </div>
         </div>
     </div>
-    <form method="GET" action="{{ route('attendance') }}">
-        <div class="row mb-4">
-            <div class="d-flex justify-content-between align-items-center">
+    <div class="row mb-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <form method="GET" action="{{ route('attendance') }}">
                 <div class="d-flex align-items-center gap-2">
                     <div class="d-flex align-items-center gap-2">
                         <label style="text-wrap: nowrap;" for="start_date">Start Date:</label>
@@ -26,24 +26,39 @@
                         <button class="btn btn-primary" type="submit">Filter</button>
                     </div>
                 </div>
-                <div class="d-flex gap-2">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            Excel
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ url('/attendance/export/1-week') }}">1 Week</a></li>
-                            <li><a class="dropdown-item" href="{{ url('/attendance/export/1-month') }}">1 Month</a></li>
-                            <li><a class="dropdown-item" href="{{ url('/attendance/export/3-month') }}">3 Month</a></li>
-                            <li><a class="dropdown-item" href="{{ url('/attendance/export/6-month') }}">6 Month</a></li>
-                            <li><a class="dropdown-item" href="{{ url('/attendance/export/1-year') }}">1 Year</a></li>
-                            <li><a class="dropdown-item" href="{{ url('/attendance/export/all') }}">All</a></li>
-                        </ul>
-                    </div>
+            </form>
+            <div class="d-flex gap-2">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        Excel
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ url('/attendance/export/1-week') }}">1 Week</a></li>
+                        <li><a class="dropdown-item" href="{{ url('/attendance/export/1-month') }}">1 Month</a></li>
+                        <li><a class="dropdown-item" href="{{ url('/attendance/export/3-month') }}">3 Month</a></li>
+                        <li><a class="dropdown-item" href="{{ url('/attendance/export/6-month') }}">6 Month</a></li>
+                        <li><a class="dropdown-item" href="{{ url('/attendance/export/1-year') }}">1 Year</a></li>
+                        <li><a class="dropdown-item" href="{{ url('/attendance/export/all') }}">All</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        Reset
+                    </button>
+                    <ul class="dropdown-menu">
+                        <form action="{{ route('resetPhoto') }}" method="POST">
+                            @csrf
+                            <button onclick="return confirm('Yakin ingin reset foto?')" class="dropdown-item text-danger" type="submit">Reset Photo Only</button>
+                        </form>
+                        <form action="{{ route('resetAll') }}" method="POST">
+                            @csrf
+                            <button onclick="return confirm('Yakin ingin reset semua?')" class="dropdown-item text-danger" type="submit">Reset All Data</button>
+                        </form>
+                    </ul>
                 </div>
             </div>
         </div>
-    </form>
+    </div>
 
     <div class="row">
         @foreach ($attendances as $date => $records)

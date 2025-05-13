@@ -26,6 +26,8 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::prefix('attendance')->group(function () {
         Route::get('/', [AttendanceController::class, 'index'])->name('attendance');
         Route::get('/export/{range}', [AttendanceController::class, 'exportExcel']);
+        Route::post('/reset/photo', [AttendanceController::class, 'resetPhoto'])->name('resetPhoto');
+        Route::post('/reset/all', [AttendanceController::class, 'resetAll'])->name('resetAll');
     });
 
     Route::prefix('excuse')->group(function () {
