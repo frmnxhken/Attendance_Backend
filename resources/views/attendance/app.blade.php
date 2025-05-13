@@ -157,13 +157,12 @@
 
                         {{-- Status --}}
                         <td>
-                            @if (is_null($attendance->checkout))
-                            @elseif ($attendance->status == 'present')
-                            <span class="badge bg-success">Present</span>
+                            @if ($attendance->status == 'present')
+                                <span class="badge bg-success">Present</span>
                             @elseif($attendance->status == 'excuse')
-                            <span class="badge bg-warning">Excuse</span>
+                                <span class="badge bg-warning">Excuse</span>
                             @else
-                            <span class="badge bg-danger">Absent</span>
+                                <span class="badge bg-danger">Absent</span>
                             @endif
                         </td>
                     </tr>
@@ -181,15 +180,15 @@
                     <a class="page-link" href="{{ request()->fullUrlWithQuery(['page' => $currentPage - 1]) }}" tabindex="-1">Previous</a>
                 </li>
 
-                @for ($page = 1; $page <= $totalPages; $page++)
+                @for($page = 1; $page <= $totalPages; $page++)
                     <li class="page-item {{ $currentPage == $page ? 'active' : '' }}">
-                    <a class="page-link" href="{{ request()->fullUrlWithQuery(['page' => $page]) }}">{{ $page }}</a>
+                        <a class="page-link" href="{{ request()->fullUrlWithQuery(['page' => $page]) }}">{{ $page }}</a>
                     </li>
-                    @endfor
+                @endfor
 
-                    <li class="page-item {{ $currentPage == $totalPages ? 'disabled' : '' }}">
-                        <a class="page-link" href="{{ request()->fullUrlWithQuery(['page' => $currentPage + 1]) }}">Next</a>
-                    </li>
+                <li class="page-item {{ $currentPage == $totalPages ? 'disabled' : '' }}">
+                    <a class="page-link" href="{{ request()->fullUrlWithQuery(['page' => $currentPage + 1]) }}">Next</a>
+                </li>
 
             </ul>
         </nav>
