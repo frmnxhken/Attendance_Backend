@@ -2,39 +2,43 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Attendance;
-use App\Models\Excuse;
-use Carbon\Carbon;
+use App\Services\ExcuseService;
 
 class ExcuseController extends Controller
 {
-    public function index() {
-        $excuses = Excuse::all();
+    protected $service;
+
+    public function __construct(ExcuseService $service)
+    {
+        $this->service = $service;
+    }
+
+    public function index()
+    {
+        $excuses = $this->service->getAllExcuses();
         return view('excuse.app', compact('excuses'));
     }
 
-    public function show($id) {
-        $excuse = Excuse::findOrFail($id);
+    public function show($id)
+    {
+        $excuse = $this->service->getDetailExcuse($id);
         return view('excuse.detail', compact('excuse'));
     }
 
-    public function approve($id) {
-        $today = Carbon::today()->format('Y-m-d');
-        $data = Excuse::findOrFail($id);
-        $data->update(['status' => 'approve']);
+    public function approve($id)
+    {
+        $approve = $this->service->approveExcuse($id);
 
-        Attendance::create([
-            'user_id' => $data->user_id,
-            'date' => $today,
-            'status' => 'Excuse'
-        ]);
+        if (!$approve) {
+            return redirect('/excuse')->with('fail', 'Excuse approved failed');
+        }
 
         return redirect('/excuse')->with('success', 'Excuse approved successfully');
     }
 
-    public function cancel($id) {
-        $data = Excuse::findOrFail($id);
-        $data->update(['status' => 'cancel']);
+    public function cancel($id)
+    {
+        $this->service->cancelExcuse($id);
         return redirect('/excuse')->with('success', 'Excuse canceled');
     }
 }
