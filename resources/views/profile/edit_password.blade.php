@@ -11,7 +11,7 @@
         <div class="col-md-6">
             <div class="card shadow">
                 <div class="card-body">
-                    <form action="/editpassword" method="post">
+                    <form action="/auth/edit-password" method="post">
                         @csrf
                         @method('PUT')
 

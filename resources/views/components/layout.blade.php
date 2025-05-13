@@ -71,12 +71,12 @@
                                     <!-- item-->
                                     <h6 class="dropdown-header">Welcome Admin!</h6>
 
-                                    <a class="dropdown-item" href="/editpassword">
+                                    <a class="dropdown-item" href="/auth/edit-password">
                                        <iconify-icon icon="solar:lock-keyhole-broken" class="align-middle me-2 fs-18"></iconify-icon><span class="align-middle">Change Password</span>
                                     </a>
 
                                     <div class="dropdown-divider my-1"></div>
-                                    <form action="/logout" method="post">
+                                    <form action="/auth/logout" method="post">
                                         @csrf
                                         <button type="submit" class="dropdown-item text-danger" href="auth-signin.html">
                                             <iconify-icon icon="solar:logout-3-broken" class="align-middle me-2 fs-18"></iconify-icon><span class="align-middle">Logout</span>

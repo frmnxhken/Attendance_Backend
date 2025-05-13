@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AuthRequest;
+use App\Http\Requests\UpdatePasswordRequest;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,13 +15,9 @@ class AdminController extends Controller
         return view('auth.login');
     }
 
-    public function authentication(Request $request) {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-
-        if (Auth::guard('admin')->attempt($credentials)) {
+    public function authentication(AuthRequest $request) {
+       
+        if (Auth::guard('admin')->attempt($request->only(['email', 'password']))) {
             $request->session()->regenerate();
             return redirect()->intended('/');
         }
@@ -40,12 +38,7 @@ class AdminController extends Controller
         return view('profile.edit_password');
     }
 
-    public function updatePassword(Request $request) {
-        $request->validate([
-            'current_password' => 'required',
-            'new_password' => 'required|min:8|confirmed',
-        ]);
-    
+    public function updatePassword(UpdatePasswordRequest $request) {
         $user = Auth::user();
     
         if (!Hash::check($request->current_password, $user->password)) {
