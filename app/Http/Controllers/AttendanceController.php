@@ -3,15 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Exports\AttendanceCombinedExport;
-use App\Models\Attendance;
+use App\Services\AttendanceService;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Facades\File;
-
 
 class AttendanceController extends Controller
 {
+    protected $attendanceService;
+
+    public function __construct(AttendanceService $attendanceService)
+    {
+        $this->attendanceService = $attendanceService;
+    }
+
     public function index(Request $request)
     {
         $startDate = $request->input('start_date');
@@ -19,47 +23,27 @@ class AttendanceController extends Controller
         $perPage = 5;
         $currentPage = (int) $request->input('page', 1);
 
-        $attendancesQuery = Attendance::with('user')->orderBy('date', 'DESC');
-
-        if ($startDate && $endDate) {
-            $attendancesQuery->whereBetween('date', [
-                Carbon::parse($startDate)->startOfDay(),
-                Carbon::parse($endDate)->endOfDay()
-            ]);
-        }
-
-        $groupedAttendances = $attendancesQuery->get()->groupBy(function ($attendance) {
-            return Carbon::parse($attendance->date)->toDateString();
-        });
-
-        $allDates = array_keys($groupedAttendances->toArray());
-        $totalDates = count($allDates);
-        $totalPages = ceil($totalDates / $perPage);
-
-        $pagedDates = array_slice($allDates, ($currentPage - 1) * $perPage, $perPage);
-
-        $pagedAttendances = collect($groupedAttendances)->only($pagedDates);
+        $result = $this->attendanceService->getGroupedAttendances(
+            $startDate, $endDate, $perPage,$currentPage);
 
         return view('attendance.app', [
-            'attendances' => $pagedAttendances,
+            'attendances' => $result['attendances'],
             'startDate' => $startDate,
             'endDate' => $endDate,
             'currentPage' => $currentPage,
-            'totalPages' => $totalPages,
+            'totalPages' => $result['totalPages'],
         ]);
     }
 
-    public function resetPhoto(Request $request) {
-        Attendance::query()->update(values: ['checkin_photo' => null, 'checkout_photo' => null]);
-        File::cleanDirectory(public_path('uploads/checkin'));
-        File::cleanDirectory(public_path('uploads/checkout'));
+    public function resetPhoto(Request $request)
+    {
+        $this->attendanceService->resetPhotos();
         return redirect()->back();
     }
 
-    public function resetAll(Request $request) {
-        Attendance::truncate();
-        File::cleanDirectory(public_path('uploads/checkin'));
-        File::cleanDirectory(public_path('uploads/checkout'));
+    public function resetAll(Request $request)
+    {
+        $this->attendanceService->resetAll();
         return redirect()->back();
     }
 
