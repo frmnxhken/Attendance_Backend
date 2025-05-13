@@ -20,14 +20,18 @@ class OfficeSeeder extends Seeder
                 'address' => 'Baron, Nganjuk',
                 'long' => 112.08672,
                 'lat' => -7.58994,
-                'radius' => 400
+                'radius' => 400,
+                'arrival' => '08:00',
+                'leave' => '15:00'
             ],
             [
                 'name' => 'Ofc 2 Mastrip',
                 'address' => 'Jl. Mastrip, Nganjuk',
                 'long' => 112.08672,
                 'lat' => -7.58994,
-                'radius' => 400
+                'radius' => 400,
+                'arrival' => '08:00',
+                'leave' => '15:00'
             ]
         ]);
     }

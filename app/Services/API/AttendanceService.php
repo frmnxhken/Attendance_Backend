@@ -37,7 +37,7 @@ class AttendanceService
         $photoPath = $this->saveAttendancePhoto($data['checkin_photo'], 'checkin');
 
         $checkinTime = Carbon::createFromFormat('H:i', $data['checkin']);
-        $arrivalTime = Carbon::createFromFormat('H:i', '08:00');
+        $arrivalTime = Carbon::parse($office->arrival);
 
         $lateMinutes = 0;
         $extraMinutes = 0;
@@ -84,7 +84,7 @@ class AttendanceService
         $photoPath = $this->saveAttendancePhoto($data['checkout_photo'], 'checkout');
 
         $checkoutTime = Carbon::createFromFormat('H:i', $data['checkout']);
-        $leaveTime = Carbon::createFromFormat('H:i', '16:00');
+        $leaveTime = Carbon::parse($office->leave);
 
         $earlyLeave = 0;
         $extraMinutes = 0;

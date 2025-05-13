@@ -37,6 +37,22 @@
                     @enderror
                 </div>
 
+                <div class="col-md-6">
+                    <label class="form-label">Arrival Time</label>
+                    <input type="time" class="form-control" name="arrival" value="{{ old('arrival', $office->arrival) }}">
+                    @error('arrival')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+                
+                <div class="col-md-6">
+                    <label class="form-label">Leave Time</label>
+                    <input type="time" class="form-control" name="leave" value="{{ old('leave', $office->leave) }}">
+                    @error('leave')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
                 <div class="col-md-12">
                     <label class="form-label">Address</label>
                     <textarea name="address" class="form-control">{{ old('address', $office->address) }}</textarea>

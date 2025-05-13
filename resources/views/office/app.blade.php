@@ -27,9 +27,15 @@
                     <div class="card-body">
                         <h4 class="text-dark">{{ $office->name }}</h4>
                         <p>{{ $office->address }}</p>
-                        <div class="d-flex gap-4">
-                            <p>{{ $office->long }}</p>
-                            <p>{{ $office->lat }}</p>
+                        <div class="d-flex justify-content-between gap-4">
+                            <div class="d-flex gap-4">
+                                <p>{{ $office->long }}</p>
+                                <p>{{ $office->lat }}</p>
+                            </div>
+                            <div class="d-flex gap-4">
+                                <p>{{ $office->arrival }}</p>
+                                <p>{{ $office->leave }}</p>
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer">

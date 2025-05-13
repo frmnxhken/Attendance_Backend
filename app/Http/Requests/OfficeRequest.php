@@ -29,6 +29,8 @@ class OfficeRequest extends FormRequest
             'lat' => 'required',
             'radius' => 'required',
             'address' => 'required',
+            'arrival' => 'required',
+            'leave' => 'required'
         ];
     }
 }

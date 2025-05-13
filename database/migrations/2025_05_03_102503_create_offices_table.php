@@ -18,6 +18,8 @@ return new class extends Migration
             $table->double('long');
             $table->double('lat');
             $table->integer('radius');
+            $table->time('arrival');
+            $table->time('leave');
             $table->timestamps();
         });
     }

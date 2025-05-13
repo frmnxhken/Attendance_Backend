@@ -41,7 +41,7 @@
                             <td>{{ $employee->office->name }}</td>
                             <td>
                                 <img
-                                    src="{{ is_null($employee->photo) ? 'https://upload.wikimedia.org/wikipedia/commons/0/08/Aespa_Karina_2024_MMA_2.jpg' : asset($employee->photo) }}"
+                                    src="{{ is_null($employee->photo) ? 'https://akcdn.detik.net.id/visual/2021/09/08/karina-aespa-4_43.jpeg?w=720&q=90' : asset($employee->photo) }}"
                                     alt="profile"
                                     class="rounded"
                                     style="width: 56px; height: 56px; object-fit: cover;" />

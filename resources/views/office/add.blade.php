@@ -29,9 +29,25 @@
                 </div>
 
                 <div class="col-md-4">
-                    <label for="lat" class="form-label">Radius</label>
+                    <label for="radius" class="form-label">Radius</label>
                     <input type="text" id="radius" name="radius" class="form-control @error('radius') is-invalid @enderror" value="{{ old('radius') }}">
                     @error('radius')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="col-md-6">
+                    <label for="arrival" class="form-label">Arrival Time</label>
+                    <input type="time" id="arrival" name="arrival" class="form-control @error('arrival') is-invalid @enderror" value="{{ old('arrival') }}">
+                    @error('arrival')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="col-md-6">
+                    <label for="leave" class="form-label">Leave Time</label>
+                    <input type="time" id="leave" name="leave" class="form-control @error('leave') is-invalid @enderror" value="{{ old('leave') }}">
+                    @error('leave')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
