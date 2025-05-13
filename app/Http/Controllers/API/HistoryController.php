@@ -30,7 +30,7 @@ class HistoryController extends Controller
     public function histories()
     {
 
-        $result = $this->service->getTodayStatistics();
+        $result = $this->service->getHistoryStatistics();
 
         return response()->json([
             'message' => 'Histories Attendance',
