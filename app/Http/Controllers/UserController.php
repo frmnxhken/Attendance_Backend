@@ -3,31 +3,33 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
-use App\Models\Attendance;
-use App\Models\Office;
-use App\Models\User;
+use App\Services\UserService;
 
 class UserController extends Controller
 {
+    protected $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
 
     public function index()
     {
-        $employees = User::with('office')->get();
+        $employees = $this->userService->getAllUsersWithOffices();
         return view('employee.app', compact('employees'));
     }
 
     public function create()
     {
-        $offices = Office::all();
+        $offices = $this->userService->getAllOffices();
         return view('employee.add', compact('offices'));
     }
 
     public function store(UserRequest $request)
     {
         try {
-            $data = $request->validated();
-            $data['password'] = bcrypt($data['nip']);
-            User::create($data);
+            $this->userService->createUser($request->validated());
             return redirect('/employee')->with('success', 'Success addedly employee');
         } catch (\Throwable $th) {
             return redirect('/employee')->with('fail', 'Fail addedly employee');
@@ -36,29 +38,24 @@ class UserController extends Controller
 
     public function show(string $id)
     {
-        $attendance = Attendance::where('user_id', $id)->get();
-        $user = User::where('id', $id)->first();
-        $statistic = [
-            'present' => $attendance->where('status', 'present')->count(),
-            'late' => $attendance->where('status', 'present')->where('late_minutes', '>', 0)->count(),
-            'excused' => $attendance->where('status', 'excuse')->count(),
-            'absent' => $attendance->where('status', 'absent')->count()
-        ];
-
-        return view('employee.detail', compact('statistic', 'user'));
+        $detail = $this->userService->getUserDetailWithAttendance($id);
+        return view('employee.detail', [
+            'user' => $detail['user'],
+            'statistic' => $detail['statistic']
+        ]);
     }
 
     public function edit(string $id)
     {
-        $offices = Office::all();
-        $employee = User::with('office')->findOrFail($id);
+        $offices = $this->userService->getAllOffices();
+        $employee = $this->userService->getUserWithOffice($id);
         return view('employee.edit', compact('offices', 'employee'));
     }
 
     public function update(UserRequest $request, string $id)
     {
         try {
-            User::findOrFail($id)->update($request->validated());
+            $this->userService->updateUser($id, $request->validated());
             return redirect('/employee')->with('success', 'Success edited employee');
         } catch (\Throwable $th) {
             return redirect('/employee')->with('fail', 'Fail edited employee');
@@ -67,14 +64,8 @@ class UserController extends Controller
 
     public function destroy(string $id)
     {
-        $user = User::findOrFail($id);
-
-        if ($user->photo && file_exists(public_path("employee/{$user->photo}"))) {
-            @unlink(public_path("employee/{$user->photo}"));
-        }
-
         try {
-            $user->delete();
+            $this->userService->deleteUser($id);
             return redirect('/employee')->with('success', 'Success deleted employee');
         } catch (\Throwable $th) {
             return redirect('/employee')->with('fail', 'Fail deleted employee');
