@@ -4,21 +4,29 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AuthRequest;
 use App\Http\Requests\UpdatePasswordRequest;
-use App\Models\Admin;
+use App\Services\AdminService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
-    public function login() {
+    protected $adminService;
+
+    public function __construct(AdminService $adminService)
+    {
+        $this->adminService = $adminService;
+    }
+
+    public function login()
+    {
         return view('auth.login');
     }
 
-    public function authentication(AuthRequest $request) {
-       
-        if (Auth::guard('admin')->attempt($request->only(['email', 'password']))) {
-            $request->session()->regenerate();
+    public function authentication(AuthRequest $request)
+    {
+
+        $credentials = $request->only(['email', 'password']);
+
+        if ($this->adminService->authenticate($credentials, $request)) {
             return redirect()->intended('/');
         }
 
@@ -27,27 +35,26 @@ class AdminController extends Controller
         ])->onlyInput('email');
     }
 
-    public function deauthentication(Request $request) {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+    public function deauthentication(Request $request)
+    {
+        $this->adminService->logout($request);
         return redirect('/login');
     }
 
-    public function editPassword() {
+    public function editPassword()
+    {
         return view('profile.edit_password');
     }
 
-    public function updatePassword(UpdatePasswordRequest $request) {
-        $user = Auth::user();
-    
-        if (!Hash::check($request->current_password, $user->password)) {
+    public function updatePassword(UpdatePasswordRequest $request)
+    {
+
+        if (!$this->adminService->updatePassword(
+            $request->current_password,
+            $request->new_password
+        )) {
             return back()->withErrors(['current_password' => 'Current password is incorrect.']);
         }
-    
-        Admin::findOrFail($user->id)->update([
-            'password' => Hash::make($request->new_password)
-        ]);
 
         return back()->with('success', 'Password updated successfully.');
     }
