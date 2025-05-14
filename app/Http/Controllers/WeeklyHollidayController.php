@@ -8,18 +8,17 @@ use Carbon\Carbon;
 
 class WeeklyHollidayController extends Controller
 {
+    public $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
     public function index()
     {
-        $today = Carbon::now()->locale('l');
-        $dayName = $today->translatedFormat('l');
         $weeklies = WeeklyHolliday::get();
         return view('weekly.app', compact('weeklies'));
     }
 
     public function create()
     {
-        $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-        return view('weekly.add', compact('days'));
+        return view('weekly.add', ['days' => $this->days]);
     }
 
     public function store(WeeklyHollidayRequest $request)
@@ -35,12 +34,12 @@ class WeeklyHollidayController extends Controller
     public function edit($id)
     {
         $holiday = WeeklyHolliday::findOrFail($id);
-        $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-        return view('weekly.edit', compact('holiday', 'days'));
+        return view('weekly.edit', ['holiday' => $holiday, 'days' => $this->days]);
     }
 
-    public function update(WeeklyHollidayRequest $request, $id) {
-         try {
+    public function update(WeeklyHollidayRequest $request, $id)
+    {
+        try {
             WeeklyHolliday::findOrFail($id)->update($request->validated());
             return redirect()->route('weekly.index')->with('success', 'Success updated weekly');
         } catch (\Throwable $th) {
@@ -48,7 +47,8 @@ class WeeklyHollidayController extends Controller
         }
     }
 
-    public function destroy($id) {
+    public function destroy($id)
+    {
         try {
             WeeklyHolliday::findOrFail($id)->delete();
             return redirect()->route('weekly.index')->with('success', 'Success deleted weekly');
