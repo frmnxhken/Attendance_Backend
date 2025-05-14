@@ -10,31 +10,78 @@
             </div>
         </div>
     </div>
+    <div class="row mb-4">
+        <div class="d-flex justify-content-between align-items-center">
+
+            <div class="col-md-4">
+                <div class="input-group">
+                    <select name="" class="form-control">
+                        <option disabled>Filter status</option>
+                        <option>approve</option>
+                        <option>pending</option>
+                        <option>cancel</option>
+                    </select>
+                    <button class="btn btn-primary">Filter</button>
+                </div>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    Reset
+                </button>
+                <ul class="dropdown-menu">
+                    <form action="" method="POST">
+                        @csrf
+                        <button onclick="return confirm('Yakin ingin reset foto?')" class="dropdown-item text-danger" type="submit">Reset Photo Only</button>
+                    </form>
+                    <form action="" method="POST">
+                        @csrf
+                        <button onclick="return confirm('Yakin ingin reset semua?')" class="dropdown-item text-danger" type="submit">Reset All Data</button>
+                    </form>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    @if (session('fail'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('fail') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
     <div class="row">
         <div class="card">
             <div class="card-body">
                 <table class="table table-hover">
                     @forelse ($excuses as $excuse)
-                        <tr>
-                            <td class="d-flex justify-content-between">
-                                <div>
-                                    <p><a href="/excuse/detail/{{ $excuse->id }}">{{ $excuse->user->name }}</a></p>
-                                    @php
-                                        $badgeClass = match ($excuse->status) {
-                                            'approve' => 'bg-success',
-                                            'pending' => 'bg-warning',
-                                            'cancel' => 'bg-danger',
-                                            default => 'bg-warning',
-                                        };
-                                    @endphp
+                    <tr>
+                        <td class="d-flex justify-content-between">
+                            <div>
+                                <p><a href="/excuse/detail/{{ $excuse->id }}">{{ $excuse->user->name }}</a></p>
+                                <p>{{ $excuse->reason }}</p>
+                                @php
+                                $badgeClass = match ($excuse->status) {
+                                'approve' => 'bg-success',
+                                'pending' => 'bg-warning',
+                                'cancel' => 'bg-danger',
+                                default => 'bg-warning',
+                                };
+                                @endphp
 
-                                    <span class="badge {{ $badgeClass }}">{{ ucfirst($excuse->status) }}</span>
-                                </div>
-                                <p>{{ $excuse->created_at }}</p>
-                            </td>
-                        </tr>
+                                <span class="badge {{ $badgeClass }}">{{ ucfirst($excuse->status) }}</span>
+                            </div>
+                            <p>{{ $excuse->date }}</p>
+                        </td>
+                    </tr>
                     @empty
-                        Data tidak ada
+                    Nothing excuse
                     @endforelse
                 </table>
             </div>

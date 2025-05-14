@@ -105,16 +105,12 @@
 
                         {{-- Check-out --}}
                         <td>
-                            @if (is_null($attendance->checkout))
-                            <span style="color: red;">Not Checked-out Yet</span>
-                            @else
                             <div class="d-flex align-items-center gap-3">
                                 <a href="#" data-bs-toggle="modal"
                                     data-bs-target="#checkoutModal{{ $attendance->id }}">
-                                    Checkout: {{ $attendance->checkout }}
+                                    Checkout: {{ $attendance->checkout ?? '--:--'}}
                                 </a>
                             </div>
-                            @endif
                         </td>
 
                         {{-- Check-in Modal --}}

@@ -11,6 +11,12 @@
         </div>
     </div>
 
+    <div class="row mb-4">
+        <div class="col">
+            <a href="{{ route('employee.create')  }}" class="btn btn-primary">Add</a>
+        </div>
+    </div>
+
     @if (session('success'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         {{ session('success') }}
@@ -25,13 +31,10 @@
     </div>
     @endif
     
+
     <div class="row">
         <div class="card">
             <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h4 class="text-dark">List Employee</h4>
-                    <a href="{{ route('employee.create')  }}" class="btn btn-primary">Add</a>
-                </div>
                 <table class="table table-bordered">
                     <thead>
                         <tr>

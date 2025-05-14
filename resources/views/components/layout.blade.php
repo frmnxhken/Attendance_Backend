@@ -3,13 +3,13 @@
 <head>
     <!-- Title Meta -->
     <meta charset="utf-8" />
-    <title>Home | BrandUI - Modern UI Kit with Layout</title>
+    <title>Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A fully responsive premium admin dashboard template, Real Estate Management Admin Template" />
     <meta name="author" content="Techzaa" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <link rel="shortcut icon" href="https://imersa.co.id/img/logo-web.png">
 
     <link href="{{ asset('/assets') }}/css/vendor.min.css" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/assets') }}/css/icons.min.css" rel="stylesheet" type="text/css" />

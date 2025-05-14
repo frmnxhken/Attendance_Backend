@@ -1,7 +1,18 @@
 <x-layout>
     <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <h4 class="mb-0 fw-bold">Office</h4>
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Office</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4 class="text-dark">Offices</h4>
             <a href="{{ route('office.create')  }}" class="btn btn-primary">Add</a>
         </div>
 
