@@ -3,6 +3,8 @@
 namespace App\Services\API;
 
 use App\Models\Attendance;
+use App\Models\SpecialHolliday;
+use App\Models\WeeklyHolliday;
 use App\Models\WorkBalance;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -15,10 +17,15 @@ class AttendanceService
         $office = $user->office;
         $today = Carbon::today()->format('Y-m-d');
 
+        $holidayCheck = $this->checkHoliday($today);
+        if ($holidayCheck) {
+            return $holidayCheck;
+        }
+
         $attendance = Attendance::where('user_id', $user->id)
             ->where('date', $today)
             ->first();
-
+        
         if ($attendance) {
             if ($attendance->checkin) {
                 return ['error' => 'Already checked in today'];
@@ -73,11 +80,17 @@ class AttendanceService
     {
         $user = Auth::user();
         $office = $user->office;
+        $today = Carbon::today()->format('Y-m-d');
+
+        $holidayCheck = $this->checkHoliday($today);
+        if ($holidayCheck) {
+            return $holidayCheck;
+        }
 
         $distance = $this->geo_distance($data['checkout_lat'], $data['checkout_long'], $office->lat, $office->long);
         $radius = $office->radius;
 
-        if ($distance > 2) {
+        if ($distance > $radius) {
             return ['error' => 'Check-out must be within '.$radius.' of office location'];
         }
 
@@ -153,6 +166,23 @@ class AttendanceService
         $file->move($destination, $filename);
 
         return $folder . '/' . $filename;
+    }
+
+    protected function checkHoliday($date)
+    {
+        $dayName = Carbon::parse($date)->format('l');
+
+        $weeklyHoliday = WeeklyHolliday::where('day', $dayName)->first();
+        if ($weeklyHoliday) {
+            return ['error' => 'This is a holiday'];
+        }
+
+        $specialHoliday = SpecialHolliday::where('date', $date)->first();
+        if ($specialHoliday) {
+            return ['error' => 'This is a holiday'];
+        }
+
+        return null;
     }
 
     protected function geo_distance($lat1, $lon1, $lat2, $lon2)

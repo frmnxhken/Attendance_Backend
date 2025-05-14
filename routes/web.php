@@ -5,7 +5,9 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ExcuseController;
 use App\Http\Controllers\OfficeController;
+use App\Http\Controllers\SpecialHollidayController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WeeklyHollidayController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/login', [AdminController::class, 'login'])->name('login');
@@ -22,6 +24,9 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::put('/edit-password', [AdminController::class, 'updatePassword']);
     });
 
+
+    Route::resource('/weekly', WeeklyHollidayController::class);
+    Route::resource('/special', SpecialHollidayController::class);
 
     Route::prefix('attendance')->group(function () {
         Route::get('/', [AttendanceController::class, 'index'])->name('attendance');
