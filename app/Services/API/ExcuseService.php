@@ -2,11 +2,18 @@
 
 namespace App\Services\API;
 
+use App\Http\Resources\ExcuseResource;
 use App\Models\Excuse;
 use Illuminate\Support\Facades\Auth;
 
 class ExcuseService
 {
+    public function getExcuses() {
+        $user = Auth::user();
+        $excuses = Excuse::where('user_id' , $user->id)->get();
+        return ExcuseResource::collection($excuses);
+    }
+
     public function createExcuse(array $data)
     {
         $filePath = $this->saveProof($data['proof']);

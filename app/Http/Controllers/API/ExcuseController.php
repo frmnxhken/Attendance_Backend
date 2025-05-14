@@ -22,4 +22,12 @@ class ExcuseController extends Controller
             'message' => 'Success create request excuse'
         ]);
     }
+
+    public function excuses() {
+        $excuses = $this->service->getExcuses();
+        return response()->json([
+            "message" => "Excuse Histories",
+            "data" => $excuses
+        ]);
+    }
 }

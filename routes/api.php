@@ -31,6 +31,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 
     Route::prefix('excuse')->group(function () {
+        Route::get('/', [ExcuseController::class, 'excuses']);
         Route::post('/request', [ExcuseController::class, 'requestExcuse']);
     });
 });
