@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-menu-color="light">
 <head>
     <!-- Title Meta -->
     <meta charset="utf-8" />
