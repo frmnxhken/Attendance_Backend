@@ -3,7 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Exports\AttendanceCombinedExport;
+use App\Models\Attendance;
+use App\Models\SpecialHolliday;
+use App\Models\User;
+use App\Models\WeeklyHolliday;
+use App\Models\WorkBalance;
 use App\Services\AttendanceService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -24,7 +30,11 @@ class AttendanceController extends Controller
         $currentPage = (int) $request->input('page', 1);
 
         $result = $this->attendanceService->getGroupedAttendances(
-            $startDate, $endDate, $perPage,$currentPage);
+            $startDate,
+            $endDate,
+            $perPage,
+            $currentPage
+        );
 
         return view('attendance.app', [
             'attendances' => $result['attendances'],
@@ -45,6 +55,12 @@ class AttendanceController extends Controller
     {
         $this->attendanceService->resetAll();
         return redirect()->back();
+    }
+
+    public function checkUp(Request $request)
+    {
+        $result = $this->attendanceService->checkUpToday();
+        return redirect()->back()->with(array_key_exists('warning', $result) ? 'warning' : 'success', array_values($result)[0]);
     }
 
     public function exportExcel($range)

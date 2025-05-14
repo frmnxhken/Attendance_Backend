@@ -10,6 +10,21 @@
             </div>
         </div>
     </div>
+   
+    @if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+   
+    @if (session('warning'))
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        {{ session('warning') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+   
     <div class="row mb-4">
         <div class="d-flex justify-content-between align-items-center">
             <form method="GET" action="{{ route('attendance') }}">
@@ -28,6 +43,10 @@
                 </div>
             </form>
             <div class="d-flex gap-2">
+                <form method="post" action="{{ route('checkUp') }}">
+                    @csrf
+                    <button class="btn btn-warning" type="submit">Check Up</button>
+                </form>
                 <div class="btn-group">
                     <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         Excel
@@ -158,11 +177,11 @@
                         {{-- Status --}}
                         <td>
                             @if ($attendance->status == 'present')
-                                <span class="badge bg-success">Present</span>
+                            <span class="badge bg-success">Present</span>
                             @elseif($attendance->status == 'excuse')
-                                <span class="badge bg-warning">Excuse</span>
+                            <span class="badge bg-warning">Excuse</span>
                             @else
-                                <span class="badge bg-danger">Absent</span>
+                            <span class="badge bg-danger">Absent</span>
                             @endif
                         </td>
                     </tr>
@@ -182,13 +201,13 @@
 
                 @for($page = 1; $page <= $totalPages; $page++)
                     <li class="page-item {{ $currentPage == $page ? 'active' : '' }}">
-                        <a class="page-link" href="{{ request()->fullUrlWithQuery(['page' => $page]) }}">{{ $page }}</a>
+                    <a class="page-link" href="{{ request()->fullUrlWithQuery(['page' => $page]) }}">{{ $page }}</a>
                     </li>
-                @endfor
+                    @endfor
 
-                <li class="page-item {{ $currentPage == $totalPages ? 'disabled' : '' }}">
-                    <a class="page-link" href="{{ request()->fullUrlWithQuery(['page' => $currentPage + 1]) }}">Next</a>
-                </li>
+                    <li class="page-item {{ $currentPage == $totalPages ? 'disabled' : '' }}">
+                        <a class="page-link" href="{{ request()->fullUrlWithQuery(['page' => $currentPage + 1]) }}">Next</a>
+                    </li>
 
             </ul>
         </nav>

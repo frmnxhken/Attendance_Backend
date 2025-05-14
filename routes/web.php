@@ -33,6 +33,7 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::get('/export/{range}', [AttendanceController::class, 'exportExcel']);
         Route::post('/reset/photo', [AttendanceController::class, 'resetPhoto'])->name('resetPhoto');
         Route::post('/reset/all', [AttendanceController::class, 'resetAll'])->name('resetAll');
+        Route::post('/checkup', [AttendanceController::class, 'checkUp'])->name('checkUp');
     });
 
     Route::prefix('excuse')->group(function () {
