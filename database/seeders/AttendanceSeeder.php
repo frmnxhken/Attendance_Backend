@@ -18,8 +18,9 @@ class AttendanceSeeder extends Seeder
         $users = DB::table('users')->pluck('id');
         $dates = [];
         $startDate = Carbon::createFromDate(2025, 5, 1); // Mulai dari 1 Mei 2025
-        $endDate = Carbon::createFromDate(2025, 6, 30); // Sampai 30 Juni 2025
-
+        $endDate = Carbon::createFromDate(2025, 5, 14); // Sampai 30 Juni 2025
+        $status = ['absent', 'present'];
+        
         while ($startDate <= $endDate) {
             $dates[] = $startDate->format('Y-m-d');
             $startDate->addDay(); 
@@ -40,10 +41,10 @@ class AttendanceSeeder extends Seeder
                     'checkout_lat' => -6.2090,
                     'checkout_distance' => 300,
                     'checkout_photo' => 'checkout_photo_' . $userId . '.jpg',
-                    'late_minutes' => rand(0, 30), // Random late minutes (0-30 minutes)
+                    'late_minutes' => rand(0, 1), // Random late minutes (0-30 minutes)
                     'early_leave' => rand(0, 10), // Random early leave (0-10 minutes)
                     'extra_minutes' => rand(0, 120), // Random extra minutes (0-120 minutes)
-                    'status' => 'present', // Change this based on status if needed
+                    'status' => $status[array_rand($status, 1)] // Change this based on status if needed
                 ]);
             }
         }
