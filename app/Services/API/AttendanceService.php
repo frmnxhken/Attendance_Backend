@@ -140,7 +140,11 @@ class AttendanceService
         if(!$attendance) {
             $status = 'checkin';
         } elseif ($attendance->checkin && !$attendance->checkout) {
-            $status = 'checkout';
+            if($attendance->status === 'present') {
+                $status = 'checkout';
+            } else {
+                $status = 'done';
+            }
         } else {
             $status = 'done';
         }
