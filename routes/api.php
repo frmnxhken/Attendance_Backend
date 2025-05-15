@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\AttendanceController;
 use App\Http\Controllers\API\ExcuseController;
 use App\Http\Controllers\API\HistoryController;
+use App\Http\Controllers\API\HolliDayController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,4 +35,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/', [ExcuseController::class, 'excuses']);
         Route::post('/request', [ExcuseController::class, 'requestExcuse']);
     });
+
+    Route::get('/holliday', [HolliDayController::class, 'index']);
 });
