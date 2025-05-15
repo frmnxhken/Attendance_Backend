@@ -35,11 +35,13 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::post('/reset/all', [AttendanceController::class, 'resetAll'])->name('resetAll');
         Route::post('/checkup', [AttendanceController::class, 'checkUp'])->name('checkUp');
     });
-
+    
     Route::prefix('excuse')->group(function () {
         Route::get('/', [ExcuseController::class, 'index']);
         Route::get('/detail/{id}', [ExcuseController::class, 'show']);
         Route::post('/detail/{id}/approve', [ExcuseController::class, 'approve'])->name('approve');
         Route::post('/detail/{id}/cancel', [ExcuseController::class, 'cancel'])->name('cancel');
+        Route::post('/reset/photo', [ExcuseController::class, 'resetPhoto'])->name('resetPhotoExcuse');
+        Route::post('/reset/all', [ExcuseController::class, 'resetAll'])->name('resetAllExcuse');
     });
 });

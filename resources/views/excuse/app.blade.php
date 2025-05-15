@@ -14,26 +14,28 @@
         <div class="d-flex justify-content-between align-items-center">
 
             <div class="col-md-4">
-                <div class="input-group">
-                    <select name="" class="form-control">
-                        <option disabled>Filter status</option>
-                        <option>approve</option>
-                        <option>pending</option>
-                        <option>cancel</option>
-                    </select>
-                    <button class="btn btn-primary">Filter</button>
-                </div>
+                <form action="/excuse" method="get">
+                    <div class="input-group">
+                        <select name="filter" class="form-control">
+                            <option value="">Filter status</option>
+                            <option>approve</option>
+                            <option>pending</option>
+                            <option>cancel</option>
+                        </select>
+                        <button class="btn btn-primary">Filter</button>
+                    </div>
+                </form>
             </div>
             <div class="btn-group">
                 <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     Reset
                 </button>
                 <ul class="dropdown-menu">
-                    <form action="" method="POST">
+                    <form action="{{ route('resetPhotoExcuse') }}" method="POST">
                         @csrf
                         <button onclick="return confirm('Yakin ingin reset foto?')" class="dropdown-item text-danger" type="submit">Reset Photo Only</button>
                     </form>
-                    <form action="" method="POST">
+                    <form action="{{ route('resetAllExcuse') }}" method="POST">
                         @csrf
                         <button onclick="return confirm('Yakin ingin reset semua?')" class="dropdown-item text-danger" type="submit">Reset All Data</button>
                     </form>
@@ -43,17 +45,17 @@
     </div>
 
     @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
     @endif
 
     @if (session('fail'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('fail') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ session('fail') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
     @endif
 
     <div class="row">
@@ -86,5 +88,8 @@
                 </table>
             </div>
         </div>
+
+        {{ $excuses->appends(['filter' => request('filter')])->links() }}
+
     </div>
 </x-layout>

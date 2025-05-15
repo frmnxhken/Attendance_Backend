@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\ExcuseService;
+use Illuminate\Http\Request;
 
 class ExcuseController extends Controller
 {
@@ -13,9 +14,10 @@ class ExcuseController extends Controller
         $this->service = $service;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $excuses = $this->service->getAllExcuses();
+        $filter = $request->input('filter');
+        $excuses = $this->service->getAllExcuses($filter);
         return view('excuse.app', compact('excuses'));
     }
 
@@ -40,5 +42,17 @@ class ExcuseController extends Controller
     {
         $this->service->cancelExcuse($id);
         return redirect('/excuse')->with('success', 'Excuse canceled');
+    }
+
+    public function resetPhoto(Request $request)
+    {
+        $this->service->resetPhotos();
+        return redirect()->back();
+    }
+
+    public function resetAll(Request $request)
+    {
+        $this->service->resetAll();
+        return redirect()->back();
     }
 }
