@@ -64,7 +64,7 @@
                             <div class="dropdown topbar-item">
                                 <a type="button" class="topbar-button" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span class="d-flex align-items-center">
-                                        <img class="rounded-circle" width="32" src="assets/images/users/avatar-1.jpg" alt="avatar-3">
+                                        <img class="rounded-circle" style="object-fit: cover;" width="32" height="32" src="https://i.pinimg.com/736x/41/f6/b2/41f6b200f8a3cd730fa13e1aab33eadb.jpg" alt="avatar-3">
                                     </span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
@@ -279,7 +279,7 @@
                         <div class="collapse" id="sidebarMultiLevelDemo">
                             <ul class="nav sub-navbar-nav">
                                 <li class="sub-nav-item">
-                                    <a class="sub-nav-link" href="/weekly">weekly</a>
+                                    <a class="sub-nav-link" href="/weekly">Weekly</a>
                                 </li>
                                 <li class="sub-nav-item">
                                     <a class="sub-nav-link" href="/special">Special Holliday</a>
