@@ -9,8 +9,5 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
 
-Schedule::call(function() {
-    logger("kontol");
-})->everySecond();
-
+Schedule::command('attendance:check')->dailyAt('22:00');
 // Schedule::command(MarkAbsent::class)->everySecond();
