@@ -10,45 +10,45 @@
             </div>
         </div>
     </div>
-   
+
     @if (session('success'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         {{ session('success') }}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
-   
+
     @if (session('warning'))
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
         {{ session('warning') }}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     @endif
-   
+
     <div class="row mb-4">
-        <div class="d-flex justify-content-between align-items-center">
-            <form method="GET" action="{{ route('attendance') }}">
-                <div class="d-flex align-items-center gap-2">
-                    <div class="d-flex align-items-center gap-2">
-                        <label style="text-wrap: nowrap;" for="start_date">Start Date:</label>
+        <div class="d-flex flex-column flex-lg-row justify-content-between align-items-start align-items-lg-center gap-3">
+            <form method="GET" action="{{ route('attendance') }}" class="w-100">
+                <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center gap-3">
+                    <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center gap-2 w-100">
+                        <label for="start_date" class="form-label mb-0 text-nowrap">Start Date:</label>
                         <input class="form-control" type="date" name="start_date" value="{{ old('start_date', $startDate) }}">
                     </div>
-                    <div class="d-flex align-items-center gap-2">
-                        <label style="text-wrap: nowrap;" for="end_date">End Date:</label>
+                    <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center gap-2 w-100">
+                        <label for="end_date" class="form-label mb-0 text-nowrap">End Date:</label>
                         <input class="form-control" type="date" name="end_date" value="{{ old('end_date', $endDate) }}">
                     </div>
-                    <div>
-                        <button class="btn btn-primary" type="submit">Filter</button>
-                    </div>
+                    <button class="btn btn-primary mt-2 mt-md-0" type="submit">Filter</button>
                 </div>
             </form>
-            <div class="d-flex gap-2">
+
+            <div class="d-flex flex-wrap flex-md-nowrap gap-2">
                 <form method="post" action="{{ route('checkUp') }}">
                     @csrf
-                    <button class="btn btn-warning" type="submit">Check Up</button>
+                    <button class="btn btn-warning w-100 w-sm-auto text-nowrap" type="submit">Check Up</button>
                 </form>
+
                 <div class="btn-group">
-                    <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button type="button" class="btn btn-success dropdown-toggle text-nowrap" data-bs-toggle="dropdown" aria-expanded="false">
                         Excel
                     </button>
                     <ul class="dropdown-menu">
@@ -60,8 +60,9 @@
                         <li><a class="dropdown-item" href="{{ url('/attendance/export/all') }}">All</a></li>
                     </ul>
                 </div>
+
                 <div class="btn-group">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button type="button" class="btn btn-primary dropdown-toggle text-nowrap" data-bs-toggle="dropdown" aria-expanded="false">
                         Reset
                     </button>
                     <ul class="dropdown-menu">
@@ -88,102 +89,113 @@
                         {{ \Carbon\Carbon::parse($date)->isToday() ? 'Today' : \Carbon\Carbon::parse($date)->format('d M Y') }}
                     </h4>
                 </div>
-                <table class="table table-hover">
-                    @foreach ($records as $attendance)
-                    <tr>
-                        <td>{{ $attendance->user->name }}</td>
+                <div class="table-responsive">
 
-                        {{-- Check-in --}}
-                        <td>
-                            <div class="d-flex align-items-center gap-3">
-                                <a href="#" data-bs-toggle="modal"
-                                    data-bs-target="#checkinModal{{ $attendance->id }}">
-                                    Checkin: {{ $attendance->checkin ?? '--:--' }}
-                                </a>
-                            </div>
-                        </td>
+                    <table class="table table-hover">
+                        @foreach ($records as $attendance)
+                        <tr>
+                            <td class="text-nowrap">{{ $attendance->user->name }}</td>
 
-                        {{-- Check-out --}}
-                        <td>
-                            <div class="d-flex align-items-center gap-3">
-                                <a href="#" data-bs-toggle="modal"
-                                    data-bs-target="#checkoutModal{{ $attendance->id }}">
-                                    Checkout: {{ $attendance->checkout ?? '--:--'}}
-                                </a>
-                            </div>
-                        </td>
+                            {{-- Check-in --}}
+                            <td>
+                                <div class="d-flex align-items-center gap-3">
+                                    <a href="#" data-bs-toggle="modal"
+                                        data-bs-target="#checkinModal{{ $attendance->id }}">
+                                        Checkin: {{ $attendance->checkin ?? '--:--' }}
+                                    </a>
+                                </div>
+                            </td>
 
-                        {{-- Check-in Modal --}}
-                        <div class="modal fade" id="checkinModal{{ $attendance->id }}" tabindex="-1"
-                            aria-labelledby="checkinModalLabel{{ $attendance->id }}" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="checkinModalLabel{{ $attendance->id }}">
-                                            Check-in: {{ $attendance->checkin ?? '--:--' }}</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <img src="{{ is_null($attendance->checkin_photo) ? '' : asset($attendance->checkin_photo) }}"
-                                            alt="Check-in photo" class="d-block w-100" />
-                                        <div class="d-flex justify-content-between">
-                                            <p>Latt: {{ $attendance->checkin_lat }}</p>
-                                            <p>Long: {{ $attendance->checkin_long }}</p>
+                            {{-- Check-out --}}
+                            <td>
+                                <div class="d-flex align-items-center gap-3">
+                                    <a href="#" data-bs-toggle="modal"
+                                        data-bs-target="#checkoutModal{{ $attendance->id }}">
+                                        Checkout: {{ $attendance->checkout ?? '--:--'}}
+                                    </a>
+                                </div>
+                            </td>
+
+                            {{-- Check-in Modal --}}
+                            <div class="modal fade" id="checkinModal{{ $attendance->id }}" tabindex="-1"
+                                aria-labelledby="checkinModalLabel{{ $attendance->id }}" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="checkinModalLabel{{ $attendance->id }}">
+                                                Check-in: {{ $attendance->checkin ?? '--:--' }}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
                                         </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Close</button>
+                                        <div class="modal-body">
+                                            @if(is_null($attendance->checkin_photo))
+                                            <p>No photo</p>
+                                            @else
+                                            <img src="{{ is_null($attendance->checkin_photo) ? '' : asset($attendance->checkin_photo) }}"
+                                                alt="Check-in photo" class="d-block w-100" />
+                                            @endif
+                                            <div class="d-flex justify-content-between">
+                                                <p>Latt: {{ $attendance->checkin_lat }}</p>
+                                                <p>Long: {{ $attendance->checkin_long }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        {{-- Check-out Modal --}}
-                        @if (!is_null($attendance->checkout))
-                        <div class="modal fade" id="checkoutModal{{ $attendance->id }}" tabindex="-1"
-                            aria-labelledby="checkoutModalLabel{{ $attendance->id }}" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title"
-                                            id="checkoutModalLabel{{ $attendance->id }}">
-                                            Check-out: {{ $attendance->checkout }}</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <img src="{{ is_null($attendance->checkout_photo) ? '' : asset($attendance->checkout_photo) }}"
-                                            alt="Check-out photo" class="d-block w-100" />
-                                        <div class="d-flex justify-content-between">
-                                            <p>Latt: {{ $attendance->checkin_lat }}</p>
-                                            <p>Long: {{ $attendance->checkin_long }}</p>
+                            {{-- Check-out Modal --}}
+                            @if (!is_null($attendance->checkout))
+                            <div class="modal fade" id="checkoutModal{{ $attendance->id }}" tabindex="-1"
+                                aria-labelledby="checkoutModalLabel{{ $attendance->id }}" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title"
+                                                id="checkoutModalLabel{{ $attendance->id }}">
+                                                Check-out: {{ $attendance->checkout }}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
                                         </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Close</button>
+                                        <div class="modal-body">
+                                            @if(is_null($attendance->checkout_photo))
+                                            <p>No photo</p>
+                                            @else
+                                            <img src="{{ is_null($attendance->checkout_photo) ? '' : asset($attendance->checkout_photo) }}"
+                                                alt="Check-out photo" class="d-block w-100" />
+                                            @endif
+                                            <div class="d-flex justify-content-between">
+                                                <p>Latt: {{ $attendance->checkin_lat }}</p>
+                                                <p>Long: {{ $attendance->checkin_long }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        @endif
-
-                        {{-- Status --}}
-                        <td>
-                            @if ($attendance->status == 'present')
-                            <span class="badge bg-success">Present</span>
-                            @elseif($attendance->status == 'excuse')
-                            <span class="badge bg-warning">Excuse</span>
-                            @else
-                            <span class="badge bg-danger">Absent</span>
                             @endif
-                        </td>
-                    </tr>
-                    @endforeach
 
-                </table>
+                            {{-- Status --}}
+                            <td>
+                                @if ($attendance->status == 'present')
+                                <span class="badge bg-success">Present</span>
+                                @elseif($attendance->status == 'excuse')
+                                <span class="badge bg-warning">Excuse</span>
+                                @else
+                                <span class="badge bg-danger">Absent</span>
+                                @endif
+                            </td>
+                        </tr>
+                        @endforeach
+
+                    </table>
+                </div>
             </div>
         </div>
         @endforeach

@@ -14,7 +14,7 @@
     <!-- ========== Page Title End ========== -->
 
     <div class="row">
-        <div class="col">
+        <div class="col-md-3">
             <div class="card">
                 <div class="card-body overflow-hidden position-relative">
                     <iconify-icon icon="solar:shield-user-bold" class="fs-36 text-info"></iconify-icon>
@@ -27,7 +27,7 @@
             </div> <!-- end card -->
         </div> <!-- end col -->
 
-        <div class="col">
+        <div class="col-md-3">
             <div class="card">
                 <div class="card-body overflow-hidden position-relative">
                     <iconify-icon icon="solar:clipboard-check-bold" class="fs-36 text-success"></iconify-icon>
@@ -40,7 +40,7 @@
             </div> <!-- end card -->
         </div> <!-- end col -->
 
-        <div class="col">
+        <div class="col-md-3">
             <div class="card">
                 <div class="card-body overflow-hidden position-relative">
                     <iconify-icon icon="solar:ghost-bold" class="fs-36 text-primary"></iconify-icon>
@@ -53,7 +53,7 @@
             </div> <!-- end card -->
         </div> <!-- end col -->
 
-        <div class="col">
+        <div class="col-md-3">
             <div class="card">
                 <div class="card-body overflow-hidden position-relative">
                     <iconify-icon icon="solar:clipboard-remove-bold" class="fs-36 text-danger"></iconify-icon>
@@ -113,7 +113,7 @@
                 </div> <!-- end card-title-->
 
                 <div dir="ltr">
-                    <canvas id="attendanceChart" class="apex-charts"></canvas>
+                    <canvas style="width: 100%;" id="attendanceChart" class="apex-charts"></canvas>
                 </div>
             </div>
         </div> <!-- end right chart card -->

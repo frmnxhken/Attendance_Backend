@@ -64,7 +64,7 @@
                 <table class="table table-hover">
                     @forelse ($excuses as $excuse)
                     <tr>
-                        <td class="d-flex justify-content-between">
+                        <td class="d-flex flex-column flex-md-row justify-content-between">
                             <div>
                                 <p><a href="/excuse/detail/{{ $excuse->id }}">{{ $excuse->user->name }}</a></p>
                                 <p>{{ $excuse->reason }}</p>
@@ -79,7 +79,7 @@
 
                                 <span class="badge {{ $badgeClass }}">{{ ucfirst($excuse->status) }}</span>
                             </div>
-                            <p>{{ $excuse->date }}</p>
+                            <p class="fs-6 mt-4 mt-md-0">{{ $excuse->date }}</p>
                         </td>
                     </tr>
                     @empty

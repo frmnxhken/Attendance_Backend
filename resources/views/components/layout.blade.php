@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" data-menu-color="light">
+
 <head>
     <!-- Title Meta -->
     <meta charset="utf-8" />
@@ -17,6 +18,7 @@
     <script src="{{ asset('/assets') }}/js/config.min.js"></script>
 
 </head>
+
 <body>
 
     <!-- START Wrapper -->
@@ -72,7 +74,7 @@
                                     <h6 class="dropdown-header">Welcome Admin!</h6>
 
                                     <a class="dropdown-item" href="/auth/edit-password">
-                                       <iconify-icon icon="solar:lock-keyhole-broken" class="align-middle me-2 fs-18"></iconify-icon><span class="align-middle">Change Password</span>
+                                        <iconify-icon icon="solar:lock-keyhole-broken" class="align-middle me-2 fs-18"></iconify-icon><span class="align-middle">Change Password</span>
                                     </a>
 
                                     <div class="dropdown-divider my-1"></div>
@@ -241,7 +243,7 @@
                             <span class="nav-text">Attendance</span>
                         </a>
                     </li>
-                    
+
                     <li class="nav-item">
                         <a class="nav-link" href="/excuse">
                             <span class="nav-icon">
@@ -250,7 +252,7 @@
                             <span class="nav-text">Excuse</span>
                         </a>
                     </li>
-                    
+
                     <li class="nav-item">
                         <a class="nav-link" href="/employee">
                             <span class="nav-icon">
@@ -259,7 +261,7 @@
                             <span class="nav-text">Employee</span>
                         </a>
                     </li>
-                    
+
                     <li class="nav-item">
                         <a class="nav-link" href="/office">
                             <span class="nav-icon">

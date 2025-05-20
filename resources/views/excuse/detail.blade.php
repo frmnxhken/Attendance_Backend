@@ -18,10 +18,12 @@
                         </li>
                     </ul>
                     <div class="d-flex gap-2">
+                        @if($excuse->status !== "approve")
                         <form action="{{ route("approve", $excuse->id) }}" method="post">
                             @csrf
                             <button class="btn btn-success">Approve</button>
                         </form>
+                        @endif
                         <form action="{{ route("cancel", $excuse->id) }}" method="post">
                             @csrf
                             <button class="btn btn-danger">Cancel</button>
@@ -33,12 +35,12 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <img 
+                    <img
                         style="width: 100%; aspect-ratio: 1; object-fit: cover;"
                         class="rounded"
                         src="{{ asset($excuse->proof ) }}"
+                        </div>
                 </div>
             </div>
         </div>
-    </div>
 </x-layout>
