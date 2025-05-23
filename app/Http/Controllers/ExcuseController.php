@@ -27,15 +27,18 @@ class ExcuseController extends Controller
         return view('excuse.detail', compact('excuse'));
     }
 
-    public function approve($id)
+    public function approve(Request $request, $id)
     {
-        $approve = $this->service->approveExcuse($id);
+        $start = $request->input('start');
+        $end = $request->input('end');
 
-        if (!$approve) {
-            return redirect('/excuse')->with('fail', 'Excuse approved failed');
+        $approve = $this->service->approveExcuse($start, $end, $id);
+
+        if (!$approve['success']) {
+            return redirect()->back()->with('fail', $approve['message']);
         }
 
-        return redirect('/excuse')->with('success', 'Excuse approved successfully');
+        return redirect()->back()->with('success', 'Excuse approved successfully');
     }
 
     public function cancel($id)

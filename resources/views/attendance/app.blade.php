@@ -44,7 +44,7 @@
             <div class="d-flex flex-wrap flex-md-nowrap gap-2">
                 <form method="post" action="{{ route('checkUp') }}">
                     @csrf
-                    <button class="btn btn-warning w-100 w-sm-auto text-nowrap" type="submit">Check Up</button>
+                    <button onclick="return confirm('Are you sure?')" class="btn btn-warning w-100 w-sm-auto text-nowrap" type="submit">Check Up</button>
                 </form>
 
                 <div class="btn-group">
@@ -68,11 +68,15 @@
                     <ul class="dropdown-menu">
                         <form action="{{ route('resetPhoto') }}" method="POST">
                             @csrf
-                            <button onclick="return confirm('Yakin ingin reset foto?')" class="dropdown-item text-danger" type="submit">Reset Photo Only</button>
+                            <button onclick="return confirm('Are you sure removing photos?')" class="dropdown-item text-danger" type="submit">Reset Photo Only</button>
                         </form>
                         <form action="{{ route('resetAll') }}" method="POST">
                             @csrf
-                            <button onclick="return confirm('Yakin ingin reset semua?')" class="dropdown-item text-danger" type="submit">Reset All Data</button>
+                            <button onclick="return confirm('Are you sure resetting attendances?')" class="dropdown-item text-danger" type="submit">Reset All Attendance</button>
+                        </form>
+                        <form action="{{ route('resetAll') }}" method="POST">
+                            @csrf
+                            <button onclick="return confirm('Are you sure resetting balances?')" class="dropdown-item text-danger" type="submit">Reset All Balance</button>
                         </form>
                     </ul>
                 </div>

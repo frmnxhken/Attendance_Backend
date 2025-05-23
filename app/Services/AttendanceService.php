@@ -21,6 +21,8 @@ class AttendanceService
                 Carbon::parse($startDate)->startOfDay(),
                 Carbon::parse($endDate)->endOfDay()
             ]);
+        } else {
+            $query->whereDate('date', '<=', Carbon::today()->toDateString());
         }
 
         $grouped = $query->get()->groupBy(function ($attendance) {
@@ -76,8 +78,8 @@ class AttendanceService
                 ->whereDate('date', $today)
                 ->first();
 
-            $arrival = $user->office->arrival; 
-            $leave = $user->office->leave; 
+            $arrival = $user->office->arrival;
+            $leave = $user->office->leave;
             $start = Carbon::createFromFormat('H:i:s', $leave);
             $end = Carbon::createFromFormat('H:i:s', $arrival);
             $balanceTime = $end->diffInMinutes($start);
