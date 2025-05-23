@@ -51,6 +51,12 @@ class AttendanceController extends Controller
         return redirect()->back();
     }
 
+    public function resetBalance(Request $request)
+    {
+        $this->attendanceService->resetBalance();
+        return redirect()->back();
+    }
+
     public function checkUp(Request $request)
     {
         $result = $this->attendanceService->checkUpToday();

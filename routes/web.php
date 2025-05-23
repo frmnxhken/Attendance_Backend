@@ -33,9 +33,10 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::get('/export/{range}', [AttendanceController::class, 'exportExcel']);
         Route::post('/reset/photo', [AttendanceController::class, 'resetPhoto'])->name('resetPhoto');
         Route::post('/reset/all', [AttendanceController::class, 'resetAll'])->name('resetAll');
+        Route::post('/reset/balance', [AttendanceController::class, 'resetBalance'])->name('resetBalance');
         Route::post('/checkup', [AttendanceController::class, 'checkUp'])->name('checkUp');
     });
-    
+
     Route::prefix('excuse')->group(function () {
         Route::get('/', [ExcuseController::class, 'index']);
         Route::get('/detail/{id}', [ExcuseController::class, 'show']);

@@ -74,7 +74,7 @@
                             @csrf
                             <button onclick="return confirm('Are you sure resetting attendances?')" class="dropdown-item text-danger" type="submit">Reset All Attendance</button>
                         </form>
-                        <form action="{{ route('resetAll') }}" method="POST">
+                        <form action="{{ route('resetBalance') }}" method="POST">
                             @csrf
                             <button onclick="return confirm('Are you sure resetting balances?')" class="dropdown-item text-danger" type="submit">Reset All Balance</button>
                         </form>

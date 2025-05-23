@@ -56,6 +56,11 @@ class AttendanceService
         File::cleanDirectory(public_path('uploads/checkout'));
     }
 
+    public function resetBalance(): void
+    {
+        WorkBalance::truncate();
+    }
+
     public function checkUpToday()
     {
         $today = Carbon::today()->format('Y-m-d');
