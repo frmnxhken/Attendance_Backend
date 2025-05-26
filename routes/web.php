@@ -35,6 +35,7 @@ Route::middleware(['auth:admin'])->group(function () {
         Route::post('/reset/all', [AttendanceController::class, 'resetAll'])->name('resetAll');
         Route::post('/reset/balance', [AttendanceController::class, 'resetBalance'])->name('resetBalance');
         Route::post('/checkup', [AttendanceController::class, 'checkUp'])->name('checkUp');
+        Route::post('/edit/{id}', [AttendanceController::class, 'update'])->name('updateAttendance');
     });
 
     Route::prefix('excuse')->group(function () {

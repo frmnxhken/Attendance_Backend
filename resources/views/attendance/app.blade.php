@@ -98,14 +98,20 @@
                     <table class="table table-hover">
                         @foreach ($records as $attendance)
                         <tr>
-                            <td class="text-nowrap">{{ $attendance->user->name }}</td>
+                            <td class="text-nowrap">
+                                <a href="#" data-bs-toggle="modal"
+                                    data-bs-target="#edit{{ $attendance->id }}">
+                                    {{ $attendance->user->name }}
+                            </td>
+                            </a>
 
                             {{-- Check-in --}}
                             <td>
                                 <div class="d-flex align-items-center gap-3">
                                     <a href="#" data-bs-toggle="modal"
                                         data-bs-target="#checkinModal{{ $attendance->id }}">
-                                        Checkin: {{ $attendance->checkin ?? '--:--' }}
+                                        in: {{ $attendance->checkin ? \Carbon\Carbon::parse($attendance->checkin)->format('H:i') : '--:--' }}
+                                        | {{ $attendance->checkin_distance.'m' ?? '' }}
                                     </a>
                                 </div>
                             </td>
@@ -115,10 +121,55 @@
                                 <div class="d-flex align-items-center gap-3">
                                     <a href="#" data-bs-toggle="modal"
                                         data-bs-target="#checkoutModal{{ $attendance->id }}">
-                                        Checkout: {{ $attendance->checkout ?? '--:--'}}
+                                        out: {{ $attendance->checkout ? \Carbon\Carbon::parse($attendance->checkout)->format('H:i') : '--:--' }}
+                                        | {{ $attendance->checkout_distance.'m' ?? '' }}
                                     </a>
                                 </div>
                             </td>
+
+                            <!-- Edit modal -->
+                            <div class="modal fade" id="edit{{ $attendance->id }}" tabindex="-1"
+                                aria-labelledby="editLabel{{ $attendance->id }}" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5>Edit | {{ $attendance->user->name }}</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="{{ route('updateAttendance', $attendance->id) }}" method="post">
+                                                @CSRF
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Checkin</label>
+                                                        <input value="{{ $attendance->checkin }}" type="text" id="checkin" name="checkin" class="form-control @error('checkin') is-invalid @enderror" value="{{ old('checkin') }}">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Checkout</label>
+                                                        <input value="{{ $attendance->checkout }}" type="text" id="checkout" name="checkout" class="form-control @error('checkout') is-invalid @enderror" value="{{ old('checkout') }}">
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <label for="name" class="form-label">Status</label>
+                                                        <select name="status" id="status" class="form-control @error('status') is-invalid @enderror">
+                                                            <option disabled value="" {{ $attendance->status ? '' : 'selected' }}>Select status</option>
+                                                            <option value="Present" {{ $attendance->status == 'Present' ? 'selected' : '' }}>Present</option>
+                                                            <option value="Excuse" {{ $attendance->status == 'Excuse' ? 'selected' : '' }}>Excuse</option>
+                                                            <option value="Absent" {{ $attendance->status == 'Absent' ? 'selected' : '' }}>Absent</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="mt-3">
+                                                        <button class="btn btn-primary" type="submit">Update</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
 
                             {{-- Check-in Modal --}}
                             <div class="modal fade" id="checkinModal{{ $attendance->id }}" tabindex="-1"

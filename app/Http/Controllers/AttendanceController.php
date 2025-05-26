@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\AttendanceCombinedExport;
+use App\Models\Attendance;
 use App\Services\AttendanceService;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -37,6 +38,22 @@ class AttendanceController extends Controller
             'currentPage' => $currentPage,
             'totalPages' => $result['totalPages'],
         ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validation = $request->validate([
+            'checkin' => 'required',
+            'checkout' => 'required',
+            'status' => 'required',
+        ]);
+
+        try {
+            Attendance::findOrFail($id)->update($validation);
+            return redirect()->back()->with('success', "Updated successfully!");
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('fail', "Update failed!");
+        }
     }
 
     public function resetPhoto(Request $request)
