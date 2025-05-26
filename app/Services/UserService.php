@@ -11,7 +11,7 @@ class UserService
 {
     public function getAllUsersWithOffices()
     {
-        return User::with('office')->paginate(7);
+        return User::with('office', 'balance')->paginate(7);
     }
 
     public function getAllOffices()

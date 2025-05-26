@@ -26,7 +26,7 @@ class User extends Authenticatable
         'gender',
         'address',
         'photo',
-        'office_id' 
+        'office_id'
     ];
 
     /**
@@ -52,8 +52,13 @@ class User extends Authenticatable
         ];
     }
 
-    public function office() {
+    public function office()
+    {
         return $this->belongsTo(Office::class);
     }
 
+    public function balance()
+    {
+        return $this->hasOne(WorkBalance::class);
+    }
 }

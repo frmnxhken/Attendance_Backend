@@ -8,6 +8,7 @@ use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\SpecialHollidayController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WeeklyHollidayController;
+use App\Http\Controllers\WorkBalanceController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/login', [AdminController::class, 'login'])->name('login');
@@ -17,6 +18,7 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('/', [DashboardController::class, 'index']);
     Route::resource('/employee', UserController::class);
     Route::resource('/office', OfficeController::class);
+    Route::post('/balance/edit/{id}', [WorkBalanceController::class, 'update'])->name('updateBalance');
 
     Route::prefix('auth')->group(function () {
         Route::post('/logout', [AdminController::class, 'deauthentication']);
